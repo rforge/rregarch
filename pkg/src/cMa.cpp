@@ -54,7 +54,7 @@ void cMa::Affect(int theIndex, double theValue)
 	if (theIndex < (int)mvMa.GetSize())
 		mvMa[theIndex] = theValue ;
 	else
-		throw cRegArchError("Bad index") ;
+		throw cRegArchError("bad index") ;
 }
 
 
@@ -107,7 +107,7 @@ void cMa::RegArchParamToVector(cDVector& theDestVect, uint theIndex)
 {
 uint mySize = mvMa.GetSize() ;
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvMa.SetSubVectorWithThis(theDestVect, theIndex) ;
 }
 
@@ -115,7 +115,7 @@ void cMa::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 uint mySize = theSrcVect.GetSize() ;
 	if (mvMa.GetSize() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvMa.SetThisWithSubVector(theSrcVect, theIndex) ;
 }
 

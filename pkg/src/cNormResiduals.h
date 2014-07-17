@@ -58,7 +58,7 @@ public :
 
 	/** Compute gradient of Log-density with respect to residual
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
+	 * \param theValue Instance where the dataset is stored
 	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradDens) */
 	void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData) const ; 
 	double ComputeEspAbsEps(void) const ;

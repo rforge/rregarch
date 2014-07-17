@@ -13,11 +13,11 @@
 #define _CABSTRESIDUALS_H_
 
 #include "RegArchDef.h"
-#ifdef _RDLL_
+#ifndef _GSL_
 	#include "RGslRandistEquiv.h"
 #else
 	#include <gsl/gsl_randist.h>
-#endif // _RDLL_
+#endif // _GSL_
 #include <time.h>
 #include <math.h>
 
@@ -32,16 +32,16 @@ class cAbstResiduals
 private :
 	eDistrTypeEnum	mvDistr	; ///< type of distribution
 	bool			mvForSimul ; ///< true if created for simulations
-#ifndef _RDLL_
+#ifdef _GSL_
 protected :
 	gsl_rng* mtR ; ///< random generator
-#endif // _RDLL_
+#endif // _GSL_
 public :
 	cDVector	mLawParam ; ///< parameters of the distribution (if any)
 public :
 	
 	/** Constructor using the type of distribution, the parameters 
-	 * and a flag on random genrator initialization */
+	 * and a flag on random generator initialization */
 	cAbstResiduals(eDistrTypeEnum theDistr, const cDVector* theParam=NULL, bool theForSimul=true) ;
 	virtual ~cAbstResiduals() ; ///< a simple destructor
 	

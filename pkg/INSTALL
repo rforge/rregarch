@@ -1,0 +1,25 @@
+The package requires to be linked to the GNU Scientific Library (GSL) for
+the purpose of numerical computations. We developed two ways to operate
+the link:
+	- Linking to the R-embedded GSL (by default)
+	- Linking to an external GSL
+		- On Linux OS
+			- Install the GSL (http://www.gnu.org/software/gsl/) so that it
+			  appears in the path.
+			  e.g. with Ubuntu: sudo apt-get install libgsl0ldbl libgsl0-dev
+			- Change the variable EXT_GSL to 'True' in src/Makevars.
+			- Proceed to the normal installation.
+		- On Windows OS
+			- Download the GSL (http://www.gnu.org/software/gsl/) for your
+			  architecture (both for i386 and x64 if you have a 64-bit
+			  architecture).
+			- Specify the path to the library in the environment variable
+			  LIB_GSL32 (and LIB_GSL64 for x64 architectures) with UNIX conventions.
+			  e.g. LIB_GSL32 C:/Users/Franck/Documents/dev/PPMMF/gsl-1.15-dev-win32
+			       LIB_GSL64 C:/Users/Franck/Documents/dev/PPMMF/gsl-1.15-dev-win64
+			- Add to the environment variable PATH the path to the binaries of each
+			  version of the library with Windows conventions.
+			  e.g. C:\Users\Franck\Documents\dev\PPMMF\gsl-1.15-dev-win32\bin
+			       C:\Users\Franck\Documents\dev\PPMMF\gsl-1.15-dev-win64\bin
+			- Change the variable EXT_GSL to 'False' in src/Makevars.win.
+			- Proceed to the normal installation.

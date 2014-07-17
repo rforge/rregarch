@@ -24,7 +24,7 @@
  * \fn ~cAbstCondMean()
  * \brief destructor.
  * \param none.
- * This function has to be changed when adding a new condtional mean type.
+ * This function has to be changed when adding a new conditional mean type.
  */
 cAbstCondMean::~cAbstCondMean()
 {

@@ -11,7 +11,7 @@
 
 #include "cStudentResiduals.h"
 #include "cRegArchError.h"
-#ifdef _RDLL_
+#ifndef _GSL_
 #include <R.h>
 #include <Rmath.h>
 	#define gsl_ran_tdist(p, q) (rt(q))
@@ -20,7 +20,7 @@
 #else
 	#include <gsl/gsl_sf_gamma.h>
 	#include <gsl/gsl_sf_psi.h>
-#endif // _RDLL_
+#endif // _GSL_
 
 cStudentResiduals::cStudentResiduals(double theDof, bool theForSimul):cAbstResiduals(eStudent, NULL, theForSimul)
 {
@@ -96,13 +96,13 @@ uint cStudentResiduals::GetNParam(void) const
 void cStudentResiduals::RegArchParamToVector(cDVector& theDestVect, uint theIndex) const
 {
 	if (theDestVect.GetSize() < theIndex - 1)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[theIndex] = mLawParam[0] ;
 }
 void cStudentResiduals::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 	if (1 + theIndex > theSrcVect.GetSize())
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mLawParam[0] = theSrcVect[theIndex] ;
 }
 

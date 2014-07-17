@@ -22,14 +22,14 @@
 */
 #include "cRegArchError.h"
 #include "cGSLVector.h"
-#ifdef _RDLL_
+#ifndef _GSL_
 	#include "RGslMatrixEquiv.h"
 #else
 	#include <iostream>
 	#include <cmath>
 	#include <gsl/gsl_matrix.h>
 	#include <gsl/gsl_linalg.h> 
-#endif //_RDLL_
+#endif //_GSL_
 #ifndef MIN_DBLE
 	#define MIN_DBLE 1e-16L
 #endif //MIN_DBLE
@@ -83,11 +83,11 @@ public :
 	friend cGSLMatrix Zeros(uint theN, uint theP) ;
 	friend cGSLMatrix Identity(uint theN) ;
 	friend cGSLMatrix Diag(const cGSLVector& theVect) ;
-#ifdef _RDLL_
+#ifndef _GSL_
 	friend void LapackInvAndDet(const cGSLMatrix &theMatrix, cGSLMatrix &theInvMatrix, double& theDet) ;
 #else
 	friend void Svd(const cGSLMatrix& theMatrix, cGSLMatrix& theU, cGSLVector& theS, cGSLMatrix& theV) ;
-#endif // _RDLL_
+#endif // _GSL_
 	friend cGSLMatrix Inv(const cGSLMatrix &theMatrix) ;
 	friend void ClearMatrix(cGSLMatrix& theMatrix) ;
 	friend std::ostream& operator <<(std::ostream& theStream, const cGSLMatrix& theMat) ;

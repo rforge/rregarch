@@ -39,7 +39,17 @@
 #
 #--- end makefile ---
 
-# For R Library 
-
- PKG_LIBS =  $(LAPACK_LIBS) $(BLAS_LIBS) 
- PKG_CXXFLAGS = -I$(R_HOME)/include -w -D_RDLL_
+# For R Library
+ 
+	#EXT_GSL = True
+	EXT_GSL = False
+	
+	ifeq "$(EXT_GSL)" "False"
+		# Using R embedded GSL
+		PKG_LIBS = $(BLAS_LIBS) $(LAPACK_LIBS) 
+		PKG_CXXFLAGS = -I$(R_HOME)/include -w -D_RDLL_ -D_GNU_
+	else
+		# Using external GSL
+		PKG_LIBS=-lgsl -lgslcblas
+		PKG_CPPFLAGS=-w -D_RDLL_ -D_GNU_ -D_GSL_
+	endif

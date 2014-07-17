@@ -162,7 +162,7 @@ uint	mySize = GetNParam(),
 		myIndex = theIndex		;
 	
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[myIndex++] = mvCste ;
 	theDestVect[myIndex++] = mvDelta ;
 	mvArch.SetSubVectorWithThis(theDestVect, myIndex) ;
@@ -176,7 +176,7 @@ void cAparch::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {uint	mySize = theSrcVect.GetSize(),
 		myIndex = theIndex ;
 	if (GetNParam() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvCste = theSrcVect[myIndex++] ;
 	mvDelta = theSrcVect[myIndex++] ;
 	mvArch.SetThisWithSubVector(theSrcVect,myIndex) ;
@@ -194,11 +194,11 @@ int myp = (int)mvArch.GetSize(),
 int myBegIndex = (int)theGradData.GetNMeanParam() ;
 double myDeltaDiv2 = mvDelta/2.0 ;
 	
-/* dérivée par rapport à la constante */
+/* derivative with respect to the constant */
 	theGradData.mCurrentGradVar[myBegIndex++] = 1.0 ;
 register int i ;
 
-/* dérivée par rapport à Delta */
+/* derivative with respect to Delta */
 	theGradData.mCurrentGradVar[myBegIndex] = 0.0 ;
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{	
@@ -212,7 +212,7 @@ register int i ;
 		theGradData.mCurrentGradVar[myBegIndex] += mvGarch[i-1] * myTemp1 * log(theValue.mHt[theDate-i])/2.0 ;
 	}
 
-/* dérivée par rapport à Arch */
+/* derivative with respect to Arch */
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{	
 	double	myTemp1 = abs(theValue.mUt[theDate-i]) - mvGamma[i-1]*theValue.mUt[theDate-i],
@@ -220,7 +220,7 @@ register int i ;
 		theGradData.mCurrentGradVar[myBegIndex+i] = myTemp2 ;
 	}
 
-/* dérivée par rapport à Gamma */
+/* derivative with respect to Gamma */
 	myBegIndex += myp ;
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{	
@@ -229,12 +229,12 @@ register int i ;
 		theGradData.mCurrentGradVar[myBegIndex+i] = -mvArch[i-1] * mvDelta * theValue.mUt[theDate-i] * myTemp2/myTemp1 ;
 	}
 
-/* dérivée par rapport à Garch */
+/* derivative with respect to Garch */
 	myBegIndex += myp ;
 	for (i = 1 ; i <= MIN(myq, theDate) ; i++)
 		theGradData.mCurrentGradVar[myBegIndex+i] = pow(theValue.mHt[theDate-i], myDeltaDiv2) ;
 	
-/* Il faut maintenant rajouter les dérivées par rapport aux u(t-i) et h(t-j) */
+/* Need now to add the derivatives with respect to u(t-i) and h(t-j) */
 	for ( i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{
 	double myTemp1 = abs(theValue.mUt[theDate-i])/theValue.mUt[theDate-i] - mvGamma[i-1],
@@ -248,13 +248,13 @@ register int i ;
 		theGradData.mCurrentGradVar += myTemp1 * theGradData.mGradHt[i-1] ; 
 	}
 
-	/* on a calculé d(ht^Delta/2)/dTeta ... Il faut calculer dht/dTeta */
-	myBegIndex = (int)theGradData.GetNMeanParam() + 1 ; // On recupère l'indice de Delta
+	/* we computed d(ht^Delta/2)/dTeta, we need to compute dht.dTeta */
+	myBegIndex = (int)theGradData.GetNMeanParam() + 1 ; // We get the index of Delta
 double myAux = theGradData.mCurrentGradVar[myBegIndex] ;
-	/* Formule valable pour tous les paramètres sauf Delta */
+	/* Correct formula for all parameters except Delta */
 double myTemp = pow(theValue.mHt[theDate], myDeltaDiv2-1) ;
 	theGradData.mCurrentGradVar /= myDeltaDiv2 * myTemp  ;
-	/* Et pour Delta */
+	/* For Delta */
 	theGradData.mCurrentGradVar[myBegIndex] = (myAux - 0.5*log(theValue.mHt[theDate]) * myTemp * theValue.mHt[theDate])/(myDeltaDiv2 * myTemp) ;
 }
 

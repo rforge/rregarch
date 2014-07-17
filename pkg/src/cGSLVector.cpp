@@ -35,7 +35,7 @@ cGSLVector::cGSLVector(int theSize, double theVal)
 			gsl_vector_set_all(mvVect, theVal) ;
 		}
 		else
-			cRegArchError("Size of vector must be positive") ;
+			cRegArchError("size of vector must be positive") ;
 	}
 	MESS_CREAT("cGSLVector") ;
 }
@@ -53,7 +53,7 @@ cGSLVector::cGSLVector(int theSize, double* theVect)
 	{	if (theSize > 0)
 			mvVect = gsl_vector_alloc((size_t)theSize) ;
 		else
-			cRegArchError("Size of vector must be positive") ;
+			cRegArchError("size of vector must be positive") ;
 	}
 	for (register int i = 0 ; i < theSize ; i++)
 		gsl_vector_set(mvVect, (size_t)i, theVect[i]) ;
@@ -160,7 +160,7 @@ void cGSLVector::Delete(void)
 void cGSLVector::ReAlloc(int theSize, double theVal)
 {	
 	if (theSize < 0)
-		cRegArchError("Size of vector must be positive") ;
+		cRegArchError("size of vector must be positive") ;
 	
 	Delete() ;
 	if (theSize > 0)
@@ -177,7 +177,7 @@ void cGSLVector::ReAlloc(int theSize, double theVal)
 void cGSLVector::ReAlloc(int theSize, double* theVect)
 {	
 	if (theSize < 0)
-		cRegArchError("Size of vector must be positive") ;
+		cRegArchError("size of vector must be positive") ;
 
 	Delete() ;
 	if (theSize > 0)
@@ -259,7 +259,7 @@ cGSLVector& cGSLVector::operator=(double theVal)
 	if (mvVect != NULL)
 		gsl_vector_set_all(mvVect, theVal) ;
 	else
-		cRegArchError("Vector size must be strictly positive") ;
+		cRegArchError("vector size must be strictly positive") ;
 	return *this ;
 }
 
@@ -276,7 +276,7 @@ cGSLVector& cGSLVector::operator=(double* theVect)
 			gsl_vector_set(mvVect, i, theVect[i]) ;
 	}
 	else
-		cRegArchError("Unknown vector size") ;
+		cRegArchError("unknown vector size") ;
 
 	return *this ;
 }
@@ -290,7 +290,7 @@ cGSLVector& cGSLVector::operator+=(const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize != GetSize())
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] += theVect[i] ;
@@ -306,7 +306,7 @@ cGSLVector& cGSLVector::operator+=(double theVal)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] += theVal ;
@@ -324,7 +324,7 @@ cGSLVector& cGSLVector::operator+=(double* theVect)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] += theVect[i] ;
@@ -341,7 +341,7 @@ cGSLVector& cGSLVector::operator-=(const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize != GetSize())
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] -= theVect[i] ;
 	
@@ -357,7 +357,7 @@ cGSLVector& cGSLVector::operator-=(double theVal)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] -= theVal ;
@@ -375,7 +375,7 @@ cGSLVector& cGSLVector::operator-=(double* theVect)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		(*this)[i] -= theVect[i] ;
@@ -392,7 +392,7 @@ cGSLVector& cGSLVector::operator*=(double theVal)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	gsl_vector_scale(mvVect, theVal) ;		
 	return *this ;
 }
@@ -406,9 +406,9 @@ cGSLVector& cGSLVector::operator/=(double theVal)
 {
 uint mySize = GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	if (theVal == 0)
-		cRegArchError("Division by zero") ;
+		cRegArchError("division by zero") ;
 	gsl_vector_scale(mvVect, 1.0/theVal) ;		
 	
 	return *this ;
@@ -423,7 +423,7 @@ cGSLVector operator +(const cGSLVector& theVect1, const cGSLVector& theVect2)
 {
 uint mySize = theVect1.GetSize() ;
 	if (mySize != theVect2.GetSize())
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*cGSLVector myTemp = cGSLVector(theVect1) ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		myTemp[i] += theVect2[i] ;
@@ -444,7 +444,7 @@ cGSLVector operator +(const cGSLVector& theVect, double theVal)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*cGSLVector myTemp = cGSLVector(theVect) ;
 
 	for (register int i = 0 ; i < (int)mySize ; i++)
@@ -468,7 +468,7 @@ cGSLVector operator +(double theVal, const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*cGSLVector myTemp = cGSLVector(theVect) ;
 for (register int i = 0 ; i < (int)mySize ; i++)
 		myTemp[i] += theVal ;
@@ -492,7 +492,7 @@ cGSLVector operator +(const cGSLVector& theVect1, double* theVect2)
 {
 uint mySize = theVect1.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*cGSLVector myTemp = cGSLVector(theVect1) ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
 		myTemp[i] += theVect2[i] ;
@@ -514,7 +514,7 @@ cGSLVector operator +(double* theVect1, const cGSLVector& theVect2)
 {
 uint mySize = theVect2.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 
 /*	cGSLVector myTemp = cGSLVector(theVect2) ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
@@ -537,7 +537,7 @@ cGSLVector operator -(const cGSLVector& theVect1, const cGSLVector& theVect2)
 {
 uint mySize = theVect1.GetSize() ;
 	if (mySize != theVect2.GetSize())
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 
 /*cGSLVector myTemp = cGSLVector(theVect1) ;
 
@@ -561,7 +561,7 @@ cGSLVector operator -(const cGSLVector& theVect, double theVal)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 
 /*cGSLVector myTemp = cGSLVector(theVect) ;
 
@@ -585,7 +585,7 @@ cGSLVector operator -(double theVal, const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*
 cGSLVector myTemp = cGSLVector(mySize, theVal) ;
 
@@ -610,7 +610,7 @@ cGSLVector operator -(const cGSLVector& theVect1, double* theVect2)
 {
 uint mySize = theVect1.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 
 /*
 cGSLVector myTemp = cGSLVector(theVect1) ;
@@ -633,7 +633,7 @@ cGSLVector operator -(double* theVect1, const cGSLVector& theVect2)
 {
 uint mySize = theVect2.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*
 cGSLVector myTemp = cGSLVector(mySize, theVect1) ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
@@ -655,7 +655,7 @@ cGSLVector operator *(const cGSLVector& theVect, double theVal)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*
 cGSLVector myTemp = cGSLVector(theVect) ;
 gsl_vector* myGslVect = myTemp.GetGSLVector() ;
@@ -677,7 +677,7 @@ cGSLVector operator *(double theVal, const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*
 cGSLVector myTemp = cGSLVector(theVect) ;
 gsl_vector* myGslVect = myTemp.GetGSLVector() ;
@@ -699,9 +699,9 @@ cGSLVector operator /(const cGSLVector& theVect, double theVal)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 	if (theVal == 0)
-		cRegArchError("Division by zero") ;
+		cRegArchError("division by zero") ;
 /*
 cGSLVector myTemp = cGSLVector(theVect) ;
 gsl_vector* myGslVect = myTemp.GetGSLVector() ;
@@ -723,7 +723,7 @@ cGSLVector operator /(double theVal, const cGSLVector& theVect)
 {
 uint mySize = theVect.GetSize() ;
 	if (mySize == 0)
-		cRegArchError("Wrong size") ;
+		cRegArchError("wrong size") ;
 /*
 cGSLVector myTemp = cGSLVector(mySize, theVal) ;
 	for (register int i = 0 ; i < (int)mySize ; i++)
@@ -748,7 +748,7 @@ uint mySrcSize = theSrcVect.GetSize() ;
 
 gsl_vector* mySrc = theSrcVect.GetGSLVector() ;
 	if (myDestSize + theBegIndex > mySrcSize)
-		throw cRegArchError("Wrong Size") ;
+		throw cRegArchError("wrong Size") ;
 	for (register uint i = 0 ; i < myDestSize ; i++)
 		gsl_vector_set(mvVect, i, gsl_vector_get(mySrc, i+theBegIndex)) ;
 }
@@ -764,7 +764,7 @@ uint myDestSize = theDestVect.GetSize() ;
 uint mySrcSize = GetSize() ;
 
 	if (myDestSize < mySrcSize + theBegIndex)
-		throw cRegArchError("Wrong Size") ;
+		throw cRegArchError("wrong Size") ;
 gsl_vector* myDest = theDestVect.GetGSLVector() ;
 	for (register uint i = 0 ; i < mySrcSize ; i++)
 		gsl_vector_set(myDest, i+theBegIndex, gsl_vector_get(mvVect, i)) ;

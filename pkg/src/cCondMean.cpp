@@ -27,6 +27,7 @@ cCondMean::cCondMean(uint theNCondMean)
 
 cCondMean::cCondMean(const eCondMeanEnum* theCode, uint theNCondMean)
 {
+	mvCondMean = NULL;
 	ReAlloc(theNCondMean) ;
 
 	for (register uint i = 0 ; i < theNCondMean ; i++)
@@ -63,7 +64,8 @@ void cCondMean::Delete(void)
 {
 	if (mvNCondMean > 0)
 	{	for (register uint i = 0 ; i < mvNCondMean ; i++)
-			mvCondMean[i]->Delete() ;
+			if (mvCondMean[i] != NULL)
+				mvCondMean[i]->Delete() ;
 		delete [] mvCondMean ;
 	}
 	mvNCondMean = 0 ;

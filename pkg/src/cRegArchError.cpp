@@ -31,5 +31,5 @@ cRegArchError::cRegArchError(const string& theMess)
 		cout << theMess.c_str() << endl ;
 	exit(0) ;
 }
-#endif _RDLL_
+#endif // _RDLL_
 

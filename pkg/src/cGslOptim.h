@@ -19,12 +19,12 @@ typedef struct sParamOptimStruct
 	cRegArchValue*		mValue ;
 }sParamOptimStruct, *pParamOptimPtr ;
 
-#ifdef _RDLL_
+#ifndef _GSL_
 	double GslLLHFunction(int n, double *par, void *ex) ;
 	void GslGradLLHFunction(int n, double *par, double *gr, void *ex);
 #else
 	double GslLLHFunction(const gsl_vector* theParam, void* theData) ;
 	void GslGradLLHFunction(const gsl_vector* theParam, void* theData, gsl_vector* theGrad) ; 
 	void GslLLHAndGradLLHFunction(const gsl_vector* theParam, void* theData, double* theLLH, gsl_vector* theGrad)  ;
-#endif _RDLL_
+#endif // _GSL_
 #endif // _CGSLOPTIM_H_

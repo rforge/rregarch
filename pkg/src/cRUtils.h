@@ -42,7 +42,7 @@ class cRUtil
 		void GetValSexp(SEXP theSEXP, uint theNum, char* theVal) ;
 		void GetValSexp(SEXP theSEXP, uint theNum, SEXP &theVal) ;
 		/*
-		*	Récupérer une vecteur à partir d'une liste SEXP à la place n° theNum
+		*	Récupérer un vecteur à partir d'une liste SEXP à la place n° theNum
 		*/
 		void GetVectSexp(SEXP theSEXP, uint theNum, uint theDim, double* theVal) ;
 		void GetVectSexp(SEXP theSEXP, uint theNum, uint theDim, int* theVal) ;

@@ -100,7 +100,7 @@ void cLinReg::RegArchParamToVector(cDVector& theDestVect, uint theIndex)
 {
 uint mySize = mvBeta.GetSize() ;
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvBeta.SetSubVectorWithThis(theDestVect, theIndex) ;
 }
 
@@ -108,7 +108,7 @@ void cLinReg::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 uint mySize = theSrcVect.GetSize() ;
 	if (mvBeta.GetSize() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvBeta.SetThisWithSubVector(theSrcVect, theIndex) ;
 }
 

@@ -306,7 +306,11 @@ uint	myNRow = theMat.GetNRow(),
 	PROTECT(theSEXP = allocMatrix(REALSXP, myNRow, myNCol)) ;
 	for (register uint i = 0 ; i < myNRow ; i++)
 		for (register uint j = 0 ; j <  myNCol ; j++)
-			REAL(theSEXP)[i+j*myNRow] = myMat->mData[i+j*myNRow] ;
+			#ifdef _GSL_
+				REAL(theSEXP)[i+j*myNRow] = myMat->data[i+j*myNRow] ;
+			#else
+				REAL(theSEXP)[i+j*myNRow] = myMat->mData[i+j*myNRow] ;
+			#endif
 }
 
 /*
@@ -539,4 +543,4 @@ void cRUtil::SetListListMatSexp(cDMatrix** theMat, uint theNList1, uint* theNLis
 	}
 }
 
-#endif / _RDLL_
+#endif // _RDLL_

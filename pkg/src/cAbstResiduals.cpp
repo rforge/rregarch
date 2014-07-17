@@ -29,22 +29,25 @@ cAbstResiduals::cAbstResiduals(eDistrTypeEnum theDistr, const cDVector* theParam
 	mvDistr = theDistr ;
 	mvForSimul = theForSimul ;
 	if (mvForSimul)
-#ifdef _RDLL_
+#ifndef _GSL_
 	GetRNGstate();
 #else
-	{	gsl_rng_env_setup() ;
-	const gsl_rng_type* myT ;
-		myT = gsl_rng_default ;
+	{	//Does not seem to have access to library
+		//variable gsl_rng_default
+		//gsl_rng_env_setup() ;
+		//const gsl_rng_type* myT ;
+		//myT = gsl_rng_default ;
+		const gsl_rng_type* myT = gsl_rng_env_setup();
 		mtR = gsl_rng_alloc(myT) ;
 	#ifndef _DEBUG
 		gsl_rng_set(mtR, (unsigned long int)time(NULL)) ;
 	#else
-		gsl_rng_set(mtR, 0) ; // Pour avoir toujours la m�me s�rie simul�e quand on teste
+		gsl_rng_set(mtR, 0) ; // To keep the same simulated serie while testing
 	#endif // _DEBUG
 	}
 	else
 		mtR = NULL ;
-#endif // _RDLL_
+#endif // _GSL_
 	if (theParam != NULL)
 		mLawParam = *theParam ;
 	MESS_CREAT("cAbstResiduals") ;
@@ -59,11 +62,11 @@ cAbstResiduals::~cAbstResiduals()
 {
 	mLawParam.Delete() ;
 	if (mvForSimul)
-#ifdef _RDLL_
+#ifndef _GSL_
 	PutRNGstate();
 #else		
-		gsl_rng_free(mtR) ;
-#endif //_RDLL_
+	gsl_rng_free(mtR) ;
+#endif //_GSL_
 	MESS_DESTR("cAbstResiduals") ;
 }
 
@@ -75,28 +78,31 @@ cAbstResiduals::~cAbstResiduals()
 void cAbstResiduals::SetSimul(void)
 {
 	mvForSimul = true ;
-#ifdef _RDLL_
+#ifndef _GSL_
 	GetRNGstate();
 #else
-	gsl_rng_env_setup() ;
-const gsl_rng_type* myT ;
-	myT = gsl_rng_default ;
+	//Does not seem to have access to library
+	//variable gsl_rng_default
+	//gsl_rng_env_setup() ;
+	//const gsl_rng_type* myT ;
+	//myT = gsl_rng_default ;
+	const gsl_rng_type* myT = gsl_rng_env_setup();
 	mtR = gsl_rng_alloc(myT) ;
 #ifndef _DEBUG
 	gsl_rng_set(mtR, (unsigned long int)time(NULL)) ;
 #else
-	gsl_rng_set(mtR, 0) ; // Pour avoir toujours la m�me s�rie simul�e quand on teste
+	gsl_rng_set(mtR, 0) ; // To keep the same simulated serie while testing
 #endif // _DEBUG
-#endif // _RDLL_
+#endif // _GSL_
 }
 
 cAbstResiduals& cAbstResiduals::operator =(const cAbstResiduals& theSrc)
 {
 	mvDistr = theSrc.mvDistr ;
 	mvForSimul = theSrc.mvForSimul ;
-#ifndef _RDLL_
+#ifdef _GSL_
 	*mtR = *(theSrc.mtR) ;
-#endif // _RDLL_
+#endif // _GSL_
 	mLawParam = theSrc.mLawParam ;
 	return *this ;
 }

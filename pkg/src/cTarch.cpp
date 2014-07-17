@@ -118,7 +118,7 @@ void cTarch::RegArchParamToVector(cDVector& theDestVect, uint theIndex)
 {
 uint mySize = GetNParam() ;
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[theIndex] = mvCste ;
 	mvArchPos.SetSubVectorWithThis(theDestVect, theIndex+1) ;
 	mvArchNeg.SetSubVectorWithThis(theDestVect, theIndex+1+mvArchPos.GetSize()) ;
@@ -129,7 +129,7 @@ void cTarch::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 uint mySize = theSrcVect.GetSize() ;
 	if (GetNParam() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvCste = theSrcVect[theIndex] ;
 	mvArchPos.SetThisWithSubVector(theSrcVect, theIndex+1) ;
 	mvArchNeg.SetThisWithSubVector(theSrcVect, theIndex+1+mvArchPos.GetSize()) ;

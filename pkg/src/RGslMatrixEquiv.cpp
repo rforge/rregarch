@@ -22,12 +22,12 @@ gsl_matrix::gsl_matrix(int theNRow, int theNCol)
 	else
 	{	if ( (theNRow >= 0) && (theNCol >= 0))
 		{	if ( (mData = Calloc(theNRow*theNCol, double)) == NULL)
-				error("Memory problem in gsl_matrix()") ;
+				error("memory problem in gsl_matrix()") ;
 			mNRow = (uint)theNRow ;
 			mNCol = (uint)theNCol ;
 		}
 		else
-			error("Bad number of rows or columns") ;
+			error("bad number of rows or columns") ;
 	}
 }
 
@@ -64,19 +64,19 @@ void gsl_matrix_set_all(gsl_matrix* theMat, double theVal)
 				theMat->mData[k++] = theVal ;
 	}
 	else
-		error("Null matrix") ;
+		error("null matrix") ;
 }
 
 void gsl_matrix_set(gsl_matrix* theMat, uint theRow, uint theCol, double theVal)
 {
 	if (theMat != NULL)
 	{	if ( (theCol < theMat->mNCol) && (theRow < theMat->mNRow) )
-			theMat->mData[theRow+theCol*theMat->mNRow] = theVal ;
+			theMat->mData[theRow*theMat->mNCol+theCol] = theVal;
 		else
-			error("Wrong row or column numbers") ;
+			error("wrong row or column number") ;
 	}
 	else
-		error("Null matrix") ;
+		error("null matrix") ;
 }
 
 void gsl_matrix_free(gsl_matrix* theMat)
@@ -90,11 +90,11 @@ void gsl_matrix_free(gsl_matrix* theMat)
 double gsl_matrix_get(gsl_matrix* theMat, uint theRow, uint theCol)
 {
 	if (theMat == NULL)
-		error("Null matrix") ;
+		error("null matrix") ;
 	else
 	{	if ( (theRow < theMat->mNRow) && (theCol < theMat->mNCol))
-			return theMat->mData[theRow+theCol*theMat->mNRow] ;
+			return theMat->mData[theRow*theMat->mNCol+theCol] ;
 		else
-			error("Wrong number of row or column") ;
+			error("wrong number of row or column") ;
 	}
 }

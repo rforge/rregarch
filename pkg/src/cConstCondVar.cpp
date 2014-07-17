@@ -69,13 +69,13 @@ uint cConstCondVar::GetNLags(void) const
 void cConstCondVar::RegArchParamToVector(cDVector& theDestVect, uint theIndex) 
 {
 	if (theDestVect.GetSize() < theIndex - 1)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[theIndex] = mvCste;
 }
 void cConstCondVar::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 	if (1 + theIndex > theSrcVect.GetSize())
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvCste = theSrcVect[theIndex] ;
 }
 

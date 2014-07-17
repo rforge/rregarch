@@ -17,10 +17,10 @@
 #include "cRegArchGradient.h"
 #include "RegArchResidualsInclude.h"
 /**
- * Modèle EGARCH(p, q)
+ * EGARCH(p, q) model
  *
- * ln h(t) = Cste + Somme_{i=1 à p} Arch(i)*(Teta*Eps(t-i) + Gamma*(abs(Eps(t-i)-E|Esp(t-i)|) 
- *				+ Somme_{j=1 à q} Garch(j)* ln h(t-j)
+ * ln h(t) = Cste + Sum_{i=1 to p} Arch(i)*(Teta*Eps(t-i) + Gamma*(abs(Eps(t-i)-E|Esp(t-i)|) 
+ *				+ Sum_{j=1 to q} Garch(j)* ln h(t-j)
  *
  */
 

@@ -11,7 +11,7 @@
 
 #ifndef _CGSLMULTIMIN_H_
 #define _CGSLMULTIMIN_H_
-#ifndef _RDLL_
+#ifdef _GSL_
 #include "RegArchDef.h"
 #include "cGSLVector.h"
 #include <gsl/gsl_multimin.h>
@@ -77,5 +77,5 @@ class cGSLMultiMin
 		void GSLOptim(cDVector& theX, sGSLMultiMinResult& theResStruct, double theStopValue=1e-6, int theMaxIter = 100, bool theVerbose = false) ;
 		virtual ~cGSLMultiMin() ;
 };
-#endif // _RDLL_
+#endif // _GSL_
 #endif //_CGSLMULTIMIN_H_

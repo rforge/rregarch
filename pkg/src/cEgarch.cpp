@@ -13,7 +13,7 @@
 
 cEgarch::cEgarch(int theNArch, int theNGarch):cAbstCondVar(eEgarch)
 {
-	mvEspAbsEpsilont = 2/SQRT_2_PI  ; // Bon seulement pour la loi normale
+	mvEspAbsEpsilont = 2/SQRT_2_PI  ; // Only for gaussian distribution
 	mvCste = 0.0L ;
 	mvArch.ReAlloc(theNArch) ;
 	mvGarch.ReAlloc(theNGarch) ;
@@ -165,7 +165,7 @@ uint mySize = GetNParam(),
 	 k = theIndex ;
 
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[k++] = mvCste ;
 	mvArch.SetSubVectorWithThis(theDestVect, k) ;
 	k += mvArch.GetSize() ;
@@ -180,7 +180,7 @@ void cEgarch::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 uint mySize = theSrcVect.GetSize(),
 	k = theIndex					;
 	if (GetNParam() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvCste = theSrcVect[k++] ;
 	mvArch.SetThisWithSubVector(theSrcVect, k) ;
 	k += mvArch.GetSize() ;
@@ -207,13 +207,13 @@ register int i, j ;
 	for (j = 1 ; j <= MIN(myq, theDate) ; j++)
 		theGradData.mCurrentGradVar[myBegIndex+j] = log(theValue.mHt[theDate-j]) ;
 	myBegIndex += myq ;
-// Teta et Gamma
+// Teta and Gamma
 	for ( i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{	theGradData.mCurrentGradVar[myBegIndex+1] += mvArch[i-1] * theValue.mEpst[theDate-i] ;
 		theGradData.mCurrentGradVar[myBegIndex+2] += mvArch[i-1] * (fabs(theValue.mEpst[theDate-i]) - mvEspAbsEpsilont) ;
 	}
 
-// Et la suite
+// Next steps
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
 		theGradData.mCurrentGradVar += mvArch[i-1]*
 		(mvTeta + mvGamma*SIGN(theValue.mEpst[theDate-i])) 
@@ -222,7 +222,7 @@ register int i, j ;
 	for (j = 1 ; j <= MIN(myq, theDate) ; j++)
 		theGradData.mCurrentGradVar += mvGarch[j-1] / theValue.mHt[theDate-j] * theGradData.mGradHt[j-1] ;
 
-	// Et maintenant le gradient par rapport au(x) paramètre(s) du résidu
+	// Gradient with respect to the parameters of the residual
 
 int myNLawParam = (int)theGradData.GetNLawParam() ;
 	if (myNLawParam > 0)
@@ -236,7 +236,7 @@ int myNLawParam = (int)theGradData.GetNLawParam() ;
 			theGradData.mCurrentGradVar[myBegIndex+i] += myAuxGrad[i]*myAux ;
 	}
 
-// On a calculé  grad Nu = grad(Log h), il faut calculer grad h	
+// We computed  grad Nu = grad(Log h), we need to compute grad h	
 	
 	theGradData.mCurrentGradVar *= theValue.mHt[theDate] ; 
 }

@@ -166,11 +166,11 @@ double* cGSLMatrix::operator [](uint theNRow) const
 {
 	if (theNRow < GetNRow())
 	{	
-#ifdef _RDLL_
+#ifndef _GSL_
 		return (double *)&(mvMat->mData[theNRow * mvMat->mNCol]) ;
 #else
 		return (double *)&(mvMat->data[theNRow * mvMat->tda]) ;
-#endif // _RDLL_
+#endif // _GSL_
 	}
 	else
 		throw cRegArchError("bad index") ;
@@ -194,7 +194,7 @@ cGSLVector& cGSLVector::operator =(const cGSLMatrix& theMatrix)
 			gsl_vector_set(mvVect, i, theMatrix[i][0]) ;
 	}
 	else 
-		cRegArchError("Matrix must have one column") ;
+		cRegArchError("matrix must have one column") ;
 	return *this ;
 }
 
@@ -207,11 +207,11 @@ uint cGSLMatrix::GetNRow(void) const
 {	if (mvMat == NULL)
 		return 0 ;
 	else
-	#ifdef _RDLL_
+	#ifndef _GSL_
 		return mvMat->mNRow ;
 	#else
 		return (uint)(mvMat->size1) ;
-	#endif // _RDLL_
+	#endif // _GSL_
 }
 
 
@@ -224,11 +224,11 @@ uint cGSLMatrix::GetNCol(void) const
 { 	if (mvMat == NULL)
 		return 0 ;
 	else
-	#ifdef _RDLL_
+	#ifndef _GSL_
 		return mvMat->mNCol ;
 	#else
 		return (uint)(mvMat->size2) ;
-	#endif // _RDLL_
+	#endif // _GSL_
 }
 
 /*!
@@ -574,7 +574,7 @@ cGSLMatrix operator *(double theLambda, const cGSLMatrix& theMatrix)
 cGSLMatrix operator /(const cGSLMatrix& theMatrix, double theLambda)
 {	
 	if (theLambda == 0)
-		throw cRegArchError("Division by zero") ;
+		throw cRegArchError("division by zero") ;
 	
 	return theMatrix *(1/theLambda) ;
 }
@@ -664,7 +664,7 @@ cGSLMatrix myMat(mySize, mySize) ;
 }
 
 
-#ifdef _RDLL_
+#ifndef _GSL_
 void LapackInvAndDet(const cGSLMatrix& theMatrix, cGSLMatrix& theInvMatrix, double& theDet)
 {
 uint	myNCol = theMatrix.GetNCol(),
@@ -685,7 +685,7 @@ int myInfo,
 	F77_NAME(dspev)("V", "U", &myN, myAP, myW, myZ, &myldz, myWork, &myInfo) ;
 
 	if (myInfo != 0)
-		error("Non inversible matrix") ;
+		error("non invertible matrix") ;
 	theDet = 1.0L ;
 cGSLVector myInvEigenValue = cGSLVector(myNCol) ;
 
@@ -696,6 +696,7 @@ cGSLMatrix myEigenVector = cGSLMatrix(myNCol, myNCol) ;
 		for (register int j = 0 ; j < myN ; j++)
 			myEigenVector[i][j] = myZ[i + j*myN] ;
 	}
+
 	theInvMatrix =  myEigenVector * Diag(myInvEigenValue) * Transpose(myEigenVector);
 	
 	delete myAP ;
@@ -736,14 +737,14 @@ gsl_vector* myS = gsl_vector_alloc(myNCol) ;
 	gsl_matrix_free(myV) ;
 	gsl_vector_free(myWork) ;
 }
-#endif // _RDLL_
+#endif // _GSL_
 /*!
 	\fn cGSLMatrix Inv
 	\param const cGSLMatrix& theMatrix
 	\brief Returns the inverse of theMatrix
 */
 cGSLMatrix Inv(const cGSLMatrix& theMatrix)
-#ifdef _RDLL_
+#ifndef _GSL_
 {
 //cOTMatrix	myInv = cOTMatrix(theMatrix.mNRow, theMatrix.mNCol) ;
 	ourTempMatrix.ReAlloc(theMatrix.GetNRow(), theMatrix.GetNCol()) ;
@@ -751,7 +752,7 @@ double myDet ;
 
 	LapackInvAndDet(theMatrix, ourTempMatrix, myDet) ;
 	if (fabs(myDet) < MIN_DBLE)
-		error("Non inversible matrix") ;
+		error("non invertible matrix") ;
 	return ourTempMatrix ;
 }
 
@@ -770,7 +771,7 @@ cGSLVector myS ;
 
 	for (register int i = 0 ; i < myNCol ; i++)
 		if (myS[i] == 0)
-			throw cRegArchError("Not inversible matrix") ;
+			throw cRegArchError("not invertible matrix") ;
 		else
 			myS[i] = 1.0/myS[i] ;
 cGSLMatrix mySInvMat = Diag(myS) ;
@@ -779,7 +780,7 @@ cGSLMatrix myRes(myNRow, myNRow) ;
 	myRes = myRes * Transpose(myU) ;
 	return myRes ;
 }
-#endif // _RDLL_
+#endif // _GSL_
 /*!
 	\fn void ClearMatrix
 	\param cGSLMatrix& theMatrix

@@ -150,13 +150,13 @@ uint cConst::GetNLags(void) const
 void cConst::RegArchParamToVector(cDVector& theDestVect, uint theIndex)
 {
 	if ((int)theDestVect.GetSize() + 1 < (int)theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[theIndex] = mvConst ;
 }
 void cConst::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 	if (1 + theIndex > theSrcVect.GetSize())
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvConst = theSrcVect[theIndex] ;
 }
 

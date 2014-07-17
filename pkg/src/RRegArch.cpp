@@ -30,6 +30,7 @@
 	#define END_EXTERN_C }
 #endif //BEG_EXTERN_C
 
+#ifdef _RDLL_
 static void SexpToRegArchParam(SEXP theModel, cRegArchParam& theParam, cDMatrix* theMatX)
 {
 SEXP myCondMeanSEXP ;
@@ -384,3 +385,4 @@ SEXP myResSEXP ;
 	return(myResSEXP) ;
 }
 END_EXTERN_C
+#endif // _RDLL_

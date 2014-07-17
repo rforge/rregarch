@@ -14,7 +14,7 @@
 #include "RegArchCompute.h"
 #include "cGslOptim.h"
 
-#ifdef _RDLL_
+#ifndef _GSL_
 double GslLLHFunction(int n, double *par, void *ex)
 {
 pParamOptimPtr myParamOptim = (pParamOptimPtr)ex ;
@@ -38,9 +38,9 @@ cDVector myTeta(theParam) ;
 	myParam->VectorToRegArchParam(myTeta) ;
 	return -1.0*RegArchLLH(*myParam, *myValue) ;
 }
-#endif // _RDLL_
+#endif // _GSL_
 
-#ifdef _RDLL_
+#ifndef _GSL_
 void GslGradLLHFunction(int n, double *par, double *gr, void *ex)
 {
 pParamOptimPtr myParamOptim = (pParamOptimPtr)ex ;
@@ -86,4 +86,4 @@ cDVector myGradLLH(theGrad) ;
 		gsl_vector_set(theGrad, i, -myGradLLH[i]) ;
 	*theLLH *= -1.0 ;
 }
-#endif _RDLL_
+#endif // _GSL_

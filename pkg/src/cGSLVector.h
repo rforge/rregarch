@@ -21,11 +21,11 @@
 #include <iostream>
 #include <ostream>
 #include <cmath>
-#ifndef _RDLL_
+#ifdef _GSL_
 	#include <gsl/gsl_vector.h>
 #else
 	#include "RGslVectorEquiv.h"
-#endif _RDLL_
+#endif // _GSL_
 #include "cRegArchError.h"
 
 
@@ -33,11 +33,11 @@
 	typedef unsigned int uint ; 
 #endif //uint
 
-// POUR DEBOGUER
+// FOR DEBUGGING
 #ifndef MESS_CREAT
 	#ifdef _DEBUG1
-		#define MESS_CREAT(p) std::cout << "creation de " << p << std::endl ;
-		#define MESS_DESTR(p) std::cout << "destruction de " << p << std::endl ;
+		#define MESS_CREAT(p) std::cout << "creation of " << p << std::endl ;
+		#define MESS_DESTR(p) std::cout << "destruction of " << p << std::endl ;
 	#else
 		#define MESS_CREAT(p) ///< used for debugging 
 		#define MESS_DESTR(p) ///< used for debugging
@@ -49,7 +49,7 @@ class cGSLMatrix ;
 	\brief class cGSLVector
 	\par
 	1) Encapsulation of the "C" gsl structure gsl_vector
-	2) Standard and usefull vector operations declarations
+	2) Standard and useful vector operations declarations
 */	
 
 class cGSLVector

@@ -10,11 +10,15 @@
  **************************************************************/
 
 #include "cNormResiduals.h"
-#ifdef _RDLL_
+#ifndef _GSL_
 #include <R.h>
 #include <Rmath.h>
 	#define gsl_ran_ugaussian(p) (rnorm(0.0, 1.0))
-#endif // _RDLL_
+#else
+	//#include <gsl/gsl_ntuple.h>
+	//#include <gsl/gsl_rng.h>
+	#include <gsl/gsl_randist.h>
+#endif // _GSL_
 
 
 cNormResiduals::cNormResiduals(const cDVector* theLawParam, bool theForSimul):cAbstResiduals(eNormal, theLawParam, theForSimul)
@@ -41,7 +45,6 @@ double cNormResiduals::LogDensity(double theX) const
 void cNormResiduals::Generate(int theT, cDVector& theYt) const 
 {
 	theYt.ReAlloc(theT) ;
-
 
 	for (register int t = 0 ; t < theT ; t++)
 		theYt[t] = gsl_ran_ugaussian(mtR) ;

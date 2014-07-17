@@ -44,7 +44,7 @@ class cRegArchError
 		cRegArchError(char* theMess) ;
 	#else
 		cRegArchError(const string& theMess) ;
-	#endif _RDLL_
+	#endif // _RDLL_
 } ;
 
 #endif //_CREGARCHERROR_H_

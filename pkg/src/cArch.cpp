@@ -97,7 +97,7 @@ void cArch::RegArchParamToVector(cDVector& theDestVect, uint theIndex)
 {
 uint mySize = GetNParam() ;
 	if (theDestVect.GetSize() < mySize + theIndex)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	theDestVect[theIndex] = mvCste ;
 	mvArch.SetSubVectorWithThis(theDestVect, theIndex+1) ;
 }
@@ -106,7 +106,7 @@ void cArch::VectorToRegArchParam(const cDVector& theSrcVect, uint theIndex)
 {
 uint mySize = theSrcVect.GetSize() ;
 	if (GetNParam() + theIndex > mySize)
-		throw cRegArchError("Wrong size") ;
+		throw cRegArchError("wrong size") ;
 	mvCste = theSrcVect[theIndex] ;
 	mvArch.SetThisWithSubVector(theSrcVect, theIndex+1) ;
 }

@@ -10,7 +10,7 @@
  **************************************************************/
 
 #include "cGSLMultiMin.h"
-#ifndef _RDLL_
+#ifdef _GSL_
 cGSLMultiMin::cGSLMultiMin()
 {
 	mvInitPoint.Delete() ;
@@ -410,4 +410,4 @@ gsl_vector* myX ;
 	}
 
 }
-#endif // _RDLL_
+#endif // _GSL_
