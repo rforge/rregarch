@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cCondMean.h 
  ***                                                         
@@ -53,7 +53,7 @@ public :
 	/* Return a given component */
 	cAbstCondMean* GetOneMean(uint theIndex) const ;
 	
-	void Print(ostream& theOut=cout) const ;
+	void Print(ostream& theOut=out) const ;
 	friend ostream& operator <<(ostream& theOut, const cCondMean& theCondMean) ;
 	virtual ~cCondMean() ; ///< a simple destructor
 	
@@ -87,9 +87,9 @@ public :
 	
 	/** Compute gradient of conditional mean with respect to parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
+	 * \param theValue Instance where the dataset is stored
 	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar)
-	 * \param theResids conditional distribution used only for non normal EGARCH models
+	 * \param theResids Conditional distribution used only for non normal EGARCH models
 	 */
 	void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData, cAbstResiduals* theResids) const ;
 

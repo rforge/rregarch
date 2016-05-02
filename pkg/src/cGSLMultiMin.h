@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGSLMultiMin.h 
  ***                                                         
@@ -14,6 +14,7 @@
 #ifdef _GSL_
 #include "RegArchDef.h"
 #include "cGSLVector.h"
+#include "cRegArchStream.h"
 #include <gsl/gsl_multimin.h>
 
 typedef enum eGSLMultiMinAlgo
@@ -64,15 +65,15 @@ class cGSLMultiMin
 		
 	public :
 		cGSLMultiMin() ;
-		cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function_fdf* theFunction = NULL, double theStepSize = 0.01, double theTol=1e-4) ;
-		cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function* theFunction, double theStepSize=0.01) ;
+		cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function_fdf* theFunction = NULL, cDVector theStepSize = cDVector(1, 1e-3), double theTol=1e-4) ;
+		cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function* theFunction, cDVector theStepSize= cDVector(1, 1e-3)) ;
 		void SetInitPoint(cDVector& theX0) ;
 		void SetTypeAlgo(eGSLMultiMinAlgo theTypeAlgo) ;
 		void SetFunction(gsl_multimin_function_fdf* theFunction) ;
 		void SetFunction(gsl_multimin_function* theFunction) ;
 		void SetFunction(GSLMultiMinF theF, GSLMultiMinDf theDf, GSLMultiMinFdf theFdf, size_t theNParam, void* theOtherParam) ;
 		void SetFunction(GSLMultiMinF theF, size_t theNParam, void* theOtherParam) ;
-		void SetStepSize(double theStepSize) ;
+		void SetStepSize(cDVector theStepSize) ;
 		void SetTol(double theTol) ;
 		void GSLOptim(cDVector& theX, sGSLMultiMinResult& theResStruct, double theStopValue=1e-6, int theMaxIter = 100, bool theVerbose = false) ;
 		virtual ~cGSLMultiMin() ;

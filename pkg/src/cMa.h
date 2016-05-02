@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cMa.h 
  ***                                                         
@@ -27,7 +27,7 @@ public :
 	cMa(int theNMa = 0) ; ///< a simple constructor
 	virtual ~cMa() ; ///< a simple destructor
 	void Delete(void) ; ///< delete
-	void Print(ostream& theOut=cout) const ; ///< print the parameters
+	void Print(ostream& theOut=RegArchStream::out) const ; ///< print the parameters
 
 	/** Change model parameters.
 	 * \param theDVector New value of parameter */
@@ -78,10 +78,10 @@ public :
 	
 	/** Compute gradient of conditional mean with respect to parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
-	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradMu 
+	 * \param theValue Instance where the dataset is stored
+	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradMu)
 	 * \param theBegIndex First index for storage in theGradData.mCurrentGradMu 
-	 * \param theResids conditional distribution used only for non normal EGARCH models
+	 * \param theResids Conditional distribution used only for non normal EGARCH models
 	 */
 	void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData, uint theBegIndex, cAbstResiduals* theResids) const ;
 

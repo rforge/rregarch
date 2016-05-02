@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchError.cpp 
  ***                                                         
@@ -28,8 +28,8 @@ cRegArchError::cRegArchError(char* theMess)
 cRegArchError::cRegArchError(const string& theMess)
 {
 	if (theMess.length() != 0) 
-		cout << theMess.c_str() << endl ;
-	exit(0) ;
+		cerr << theMess.c_str() << endl ;
+	exit(1) ;
 }
 #endif // _RDLL_
 

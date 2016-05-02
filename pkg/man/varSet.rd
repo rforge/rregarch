@@ -4,9 +4,6 @@
 \alias{print.condVarClass}
 \title{Set conditional variance for general regression with ARCH type residuals}
 \description{This function returns a condVarClass object describing the conditional variance of the model.}
-\synopsis{
-    varSet(...)
-}
 
 \usage{
     varSet(CONSTVAR=0)
@@ -25,51 +22,51 @@
 \arguments{
    \item{CONSTVAR}{A double: value of the constant variance for a constant variance model.}
    \item{ARCH}{A list with:\itemize{
-        \item{ConstVar}{the value of the constant of the ARCH(p) model.}
-        \item{ARCH}{a vector of ARCH coefficients.}
+        \item{ConstVar}{ the value of the constant of the ARCH(p) model.}
+        \item{ARCH}{ a vector of ARCH coefficients.}
         }
    }
    \item{nARCH}{An integer: number of ARCH lags.}
    \item{GARCH}{A list with:\itemize{
-        \item{ConstVar}{the value of the constant of the GARCH(p, q) model.}
-        \item{ARCH}{a vector of ARCH coefficients.}
-        \item{GARCH}{a vector of GARCH coefficients.}
+        \item{ConstVar}{ the value of the constant of the GARCH(p, q) model.}
+        \item{ARCH}{ a vector of ARCH coefficients.}
+        \item{GARCH}{ a vector of GARCH coefficients.}
         }
    }
    \item{nGARCH}{a 2-dimensional vector with ARCH and GARCH lags.}
    \item{TARCH}{A list with:\itemize{
-        \item{TARCHPlus}{vector of TARCH+ coefficients.}
-        \item{TARCHMinus}{Vector of TARCH- coefficients.}
+        \item{TARCHPlus}{ a vector of TARCH+ coefficients.}
+        \item{TARCHMinus}{ a vector of TARCH- coefficients.}
         }
    }
    \item{nTARCH}{An integer: number of ARCH lags.}
    \item{EGARCH}{A list with:\itemize{
-        \item{ConstVar}{the value of the constant of the EGARCH(p, q) model.}
-        \item{ARCH}{a vector of ARCH coefficients.}
-        \item{GARCH}{a vector of GARCH coefficients.}
-        \item{Teta}{a double, value of Teta coefficient.}
-        \item{Gamma}{a double, value of Gamma coefficient.}
+        \item{ConstVar}{ the value of the constant of the EGARCH(p, q) model.}
+        \item{ARCH}{ a vector of ARCH coefficients.}
+        \item{GARCH}{ a vector of GARCH coefficients.}
+        \item{Teta}{ a double, value of Teta coefficient.}
+        \item{Gamma}{ a double, value of Gamma coefficient.}
         }
    }
    \item{nEGARCH}{a 2-dimensional vector with ARCH and GARCH lags.}
    \item{APARCH}{A list with:\itemize{
-        \item{ConstVar}{the value of the constant of the EGARCH(p, q) model.}
-        \item{ARCH}{a vector of ARCH coefficients.}
-        \item{Gamma}{a vector of Gamma coefficients.}
-        \item{GARCH}{a vector of GARCH coefficients.}
-        \item{Delta}{a double, value of Delta coefficient.}
+        \item{ConstVar}{ the value of the constant of the EGARCH(p, q) model.}
+        \item{ARCH}{ a vector of ARCH coefficients.}
+        \item{Gamma}{ a vector of Gamma coefficients.}
+        \item{GARCH}{ a vector of GARCH coefficients.}
+        \item{Delta}{ a double, value of Delta coefficient.}
             }
     }
    \item{nAPARCH}{a 2-dimensional vector with ARCH and GARCH lags.}  
  }
 \value{ a condVarClass object which describes the conditional variance model.
     \item{varType}{an integer \itemize{
-        \item{eConstVar=1}{Constant conditional variance model} 
-        \item{eARCH=2}{ARCH(p) model}
-        \item{eGARCH=4}{GARCH(p,q) model}
-        \item{eEGARCH=8}{EGARCH(p,q) model}
-        \item{eAPARCH=16}{APARCH(p,q) model}
-        \item{eTARCH=32}{TARCH(p) model}
+        \item{eConstVar=1}{ Constant conditional variance model} 
+        \item{eARCH=2}{ ARCH(p) model}
+        \item{eGARCH=4}{ GARCH(p,q) model}
+        \item{eEGARCH=8}{ EGARCH(p,q) model}
+        \item{eAPARCH=16}{ APARCH(p,q) model}
+        \item{eTARCH=32}{ TARCH(p) model}
             }
         }
     \item{nParam}{An integer. Number of parameters in the conditional variance model.}

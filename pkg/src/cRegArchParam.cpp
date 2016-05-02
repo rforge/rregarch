@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchParam.cpp 
  ***                                                         
@@ -107,12 +107,12 @@ void cRegArchParam::AddResid(const cAbstResiduals& theCondResiduals)
 }
 
 
-void cRegArchParam::PrintResiduals(std::ostream &theOut) const
+void cRegArchParam::PrintResiduals(ostream &theOut) const
 {
 	mResids->Print(theOut) ;
 }
 
-void cRegArchParam::PrintParam(std::ostream &theOut) const
+void cRegArchParam::PrintParam(ostream &theOut) const
 {
 	theOut << "Regression with ARCH type residuals parameters:" << endl ;
 	theOut << "-----------------------------------------------" << endl ;

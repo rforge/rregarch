@@ -5,13 +5,12 @@
 
 # For R Library 
 
-	#EXT_GSL = True
 	EXT_GSL = False
 	
 	ifeq "$(EXT_GSL)" "False"
 		# Using R embedded GSL
 		PKG_LIBS = $(BLAS_LIBS) $(FLIBS) $(LAPACK_LIBS) 
-		PKG_CXXFLAGS = -I$(R_HOME)/include -w -D_RDLL_ -D_GNU_
+		PKG_CPPFLAGS = -I$(R_HOME)/include -w -D_RDLL_ -D_GNU_
 	else
 		# Using external GSL
 		ifeq "$(WIN)" "64"
@@ -19,5 +18,5 @@
 		else
 			PKG_LIBS=-L$(LIB_GSL32)/lib -lgsl -lgslcblas
 		endif
-		PKG_CPPFLAGS=-I$(LIB_GSL32)/include -w -D_RDLL_ -D_GNU_ -D_GSL_
+		PKG_CPPFLAGS=-I$(LIB_GSL32)/include -w -g -D_RDLL_ -D_GNU_ -D_GSL_
 	endif

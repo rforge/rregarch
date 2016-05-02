@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGSLMatrix.cpp 
  ***                                                         
@@ -194,7 +194,7 @@ cGSLVector& cGSLVector::operator =(const cGSLMatrix& theMatrix)
 			gsl_vector_set(mvVect, i, theMatrix[i][0]) ;
 	}
 	else 
-		cRegArchError("matrix must have one column") ;
+		throw cRegArchError("matrix must have one column") ;
 	return *this ;
 }
 
@@ -326,7 +326,7 @@ cGSLMatrix& cGSLMatrix::operator +=(double theVal)
 */
 cGSLMatrix& cGSLMatrix::operator -=(const cGSLMatrix& theMatrix)
 {
-	*this = *this -theMatrix ;
+	*this = *this - theMatrix ;
 	return *this ;
 }
 
@@ -580,18 +580,18 @@ cGSLMatrix operator /(const cGSLMatrix& theMatrix, double theLambda)
 }
 
 /*!
-	\fn std::ostream& operator <<
-	\param std::ostream& theStream, const cGSLMatrix& theMat
+	\fn ostream& operator <<
+	\param ostream& theStream, const cGSLMatrix& theMat
 	\brief prints matrix theMat
 */
-std::ostream& operator <<(std::ostream& theStream, const cGSLMatrix& theMat)
+ostream& operator <<(ostream& theStream, const cGSLMatrix& theMat)
 {
 register uint	i,
 				j	;
 	for (i = 0 ; i < theMat.GetNRow() ; i++)
 	{	for (j = 0 ; j < theMat.GetNCol()-1 ; j++)
 			theStream << theMat[i][j] << "\t" ;
-		theStream << theMat[i][j] << std::endl ;
+		theStream << theMat[i][j] << endl ;
 	}
 	return theStream ;
 }
@@ -685,13 +685,15 @@ int myInfo,
 	F77_NAME(dspev)("V", "U", &myN, myAP, myW, myZ, &myldz, myWork, &myInfo) ;
 
 	if (myInfo != 0)
-		error("non invertible matrix") ;
+		throw cRegArchError("non invertible matrix") ;
 	theDet = 1.0L ;
 cGSLVector myInvEigenValue = cGSLVector(myNCol) ;
 
 cGSLMatrix myEigenVector = cGSLMatrix(myNCol, myNCol) ;
 	for (register uint i = 0 ; i < myNCol ; i++)
 	{	theDet *= myW[i] ;
+		if (myW[i] == 0.0)
+			throw cRegArchError("non invertible matrix");
 		myInvEigenValue[i] = 1.0 /myW[i] ;
 		for (register int j = 0 ; j < myN ; j++)
 			myEigenVector[i][j] = myZ[i + j*myN] ;
@@ -736,6 +738,7 @@ gsl_vector* myS = gsl_vector_alloc(myNCol) ;
 	gsl_matrix_free(myA) ;
 	gsl_matrix_free(myV) ;
 	gsl_vector_free(myWork) ;
+	gsl_vector_free(myS) ;
 }
 #endif // _GSL_
 /*!
@@ -752,7 +755,7 @@ double myDet ;
 
 	LapackInvAndDet(theMatrix, ourTempMatrix, myDet) ;
 	if (fabs(myDet) < MIN_DBLE)
-		error("non invertible matrix") ;
+		throw cRegArchError("non invertible matrix") ;
 	return ourTempMatrix ;
 }
 

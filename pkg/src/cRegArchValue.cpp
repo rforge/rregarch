@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchValue.cpp 
  ***                                                         
@@ -100,6 +100,17 @@ cRegArchValue::cRegArchValue(cDVector* theYt, cDMatrix* theXt) // Xt T rows, p c
 	MESS_CREAT("cRegArchValue") ;
 }
 
+cRegArchValue::cRegArchValue(const cRegArchValue* theValue)
+{
+	mYt.ReAlloc(theValue->mYt);
+	mXt.ReAlloc(theValue->mXt);
+	mMt.ReAlloc(theValue->mMt);
+	mHt.ReAlloc(theValue->mHt);
+	mUt.ReAlloc(theValue->mUt);
+	mEpst.ReAlloc(theValue->mEpst);
+	MESS_CREAT("cRegArchValue");
+}
+
 cRegArchValue::~cRegArchValue()
 {
 	mYt.Delete();
@@ -170,7 +181,7 @@ uint mySize = theYt.GetSize() ;
 		mHt.Delete() ;
 		mUt.Delete() ;
 		mEpst.Delete() ;
-		throw cRegArchError("imcompatibility beetwen Yt and Xt") ;
+		throw cRegArchError("incompatibility beetwen Yt and Xt") ;
 	}
 }
 

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cTarch.h 
  ***                                                         
@@ -30,7 +30,7 @@ public :
 	cTarch(int theNTarch = 0) ; ///< a simple constructor
 	virtual ~cTarch() ; ///< a simple destructor
 	void Delete(void) ; ///< delete
-	void Print(ostream& theOut=cout) const ; ///< print the parameters
+	void Print(ostream& theOut=out) const ; ///< print the parameters
 
 	/** Change model parameters.
 	 * Vector of parameters is resized to size theParam[0] */
@@ -74,9 +74,9 @@ public :
 
 	/** Compute gradient of conditional variance with respect to parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
-	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar
-	 * \param theResids conditional distribution used only for non normal EGTARCH models
+	 * \param theValue Instance where the dataset is stored
+	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar)
+	 * \param theResids Conditional distribution used only for non normal EGTARCH models
 	*/
 	void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData, cAbstResiduals* theResiduals) const ;
 } ;

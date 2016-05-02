@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: RGslMatrixEquiv.cpp 
  ***                                                         
@@ -22,12 +22,12 @@ gsl_matrix::gsl_matrix(int theNRow, int theNCol)
 	else
 	{	if ( (theNRow >= 0) && (theNCol >= 0))
 		{	if ( (mData = Calloc(theNRow*theNCol, double)) == NULL)
-				error("memory problem in gsl_matrix()") ;
+				throw cRegArchError("memory problem in gsl_matrix()") ;
 			mNRow = (uint)theNRow ;
 			mNCol = (uint)theNCol ;
 		}
 		else
-			error("bad number of rows or columns") ;
+			throw cRegArchError("bad number of rows or columns") ;
 	}
 }
 
@@ -64,7 +64,7 @@ void gsl_matrix_set_all(gsl_matrix* theMat, double theVal)
 				theMat->mData[k++] = theVal ;
 	}
 	else
-		error("null matrix") ;
+		throw cRegArchError("null matrix") ;
 }
 
 void gsl_matrix_set(gsl_matrix* theMat, uint theRow, uint theCol, double theVal)
@@ -73,10 +73,10 @@ void gsl_matrix_set(gsl_matrix* theMat, uint theRow, uint theCol, double theVal)
 	{	if ( (theCol < theMat->mNCol) && (theRow < theMat->mNRow) )
 			theMat->mData[theRow*theMat->mNCol+theCol] = theVal;
 		else
-			error("wrong row or column number") ;
+			throw cRegArchError("wrong row or column number") ;
 	}
 	else
-		error("null matrix") ;
+		throw cRegArchError("null matrix") ;
 }
 
 void gsl_matrix_free(gsl_matrix* theMat)
@@ -90,11 +90,11 @@ void gsl_matrix_free(gsl_matrix* theMat)
 double gsl_matrix_get(gsl_matrix* theMat, uint theRow, uint theCol)
 {
 	if (theMat == NULL)
-		error("null matrix") ;
+		throw cRegArchError("null matrix") ;
 	else
 	{	if ( (theRow < theMat->mNRow) && (theCol < theMat->mNCol))
 			return theMat->mData[theRow*theMat->mNCol+theCol] ;
 		else
-			error("wrong number of row or column") ;
+			throw cRegArchError("wrong number of row or column") ;
 	}
 }

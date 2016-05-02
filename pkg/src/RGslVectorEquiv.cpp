@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: RGslVectorEquiv.cpp 
  ***                                                         
@@ -21,13 +21,13 @@ gsl_vector::gsl_vector(int theSize, double theVal)
 	else
 	{	if (theSize > 0)
 		{	if ( (mData = Calloc(theSize, double)) == NULL)
-				error("memory error in gsl_vector()") ;
+				throw cRegArchError("memory error in gsl_vector()") ;
 			size = theSize ;
 			for (register int i = 0 ; i < theSize ; i++)
 				mData[i] = theVal ;
 		}
 		else
-			error("size of vector must be positive") ;
+			throw cRegArchError("size of vector must be positive") ;
 	}
 }
 gsl_vector::~gsl_vector()
@@ -79,18 +79,18 @@ void gsl_vector_free(gsl_vector* theVect)
 double* gsl_vector_ptr(gsl_vector* theVect, size_t theIndex)
 {
 	if (theVect == NULL)
-		error("null vector") ;
+		throw cRegArchError("null vector") ;
 	
 	if ((theIndex >= 0) && (theIndex < theVect->size))
 		return &(theVect->mData[theIndex]) ;
 	else
-		error("bad index") ;
+		throw cRegArchError("bad index") ;
 }
 
 void gsl_vector_scale(gsl_vector* theVect, double theVal)
 {
 	if (theVect == NULL)
-		error("null vector") ;
+		throw cRegArchError("null vector") ;
 	else
 		for (register int i = 0 ; i < (int)theVect->size ; i++)
 			theVect->mData[i] *= theVal ;

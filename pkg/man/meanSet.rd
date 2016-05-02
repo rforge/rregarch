@@ -4,9 +4,6 @@
 \alias{print.condMeanClass}
 \title{Set model conditional mean}
 \description{This function returns a condMeanClass object describing the conditional mean of the model.}
-\synopsis{
-    \meanSet(...)
-}
 
 \usage{
     meanSet(CONST=0)

@@ -4,9 +4,7 @@
 \alias{print.condResidualsClass}
 \title{Set conditional residuals for the model}
 \description{This function returns a condResidualsClass object describing the conditional residuals of the model.}
-\synopsis{
-    residualsSet(condResiduals, parameter=NULL)
-}
+
 \usage{
    residualsSet(condResiduals='NORMAL')
    residualsSet(condResiduals='STUDENT', parameter=0)

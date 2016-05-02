@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchParam.h 
  ***                                                         
@@ -69,16 +69,16 @@ public :
 	void AddResid(const cAbstResiduals& theCondResids) ;
 	
 	/** Print model for conditional mean */
-	void PrintMean(ostream& theOut=cout) const;
+	void PrintMean(ostream& theOut=out) const;
 	
 	/** Print model for conditional variance */
-	void PrintVar(ostream& theOut=cout) const;
+	void PrintVar(ostream& theOut=out) const;
 	
 	/** Print model for residuals */
-	void PrintResiduals(ostream& theOut=cout) const;
+	void PrintResiduals(ostream& theOut=out) const;
 	
 	/** Print the whole ARMA/GARCH model */
-	void PrintParam(ostream& theOut=cout) const;
+	void PrintParam(ostream& theOut=out) const;
 	
 	/** Return the number of model parameters */
 	uint GetNParam(void) const;

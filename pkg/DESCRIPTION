@@ -1,9 +1,9 @@
 Package: RRegArch
-Version: 0.8.0
-Date: 2009-03-30
+Version: 1.0.0
+Date: 2016-04-23
 Title: General univariate ARCH models simulation and estimation
-Author: Ollivier TARAMASCO
-Maintainer: Ollivier TARAMASCO <Ollivier.Taramasco@imag.fr>
+Author: Ollivier Taramasco, Franck Bitard
+Maintainer: Ollivier Taramasco <Ollivier.Taramasco@imag.fr>
 Depends: R (>= 2.3.0)
 Description: Different conditional means, conditional variances and conditional residuals models.
 License: GPL (>=2)

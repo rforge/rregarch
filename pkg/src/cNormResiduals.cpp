@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cNormResiduals.cpp 
  ***                                                         
@@ -50,7 +50,7 @@ void cNormResiduals::Generate(int theT, cDVector& theYt) const
 		theYt[t] = gsl_ran_ugaussian(mtR) ;
 }
 
-void cNormResiduals::Print(std::ostream &theOut) const
+void cNormResiduals::Print(ostream &theOut) const
 {
 	theOut << "Conditional Normal Distribution" << endl ;
 }

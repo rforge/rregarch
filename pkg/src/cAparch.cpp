@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cAparch.cpp 
  ***                                                         
@@ -112,7 +112,6 @@ void cAparch::Affect(double theValue, int thePlace)
 void cAparch::Affect(cAbstCondVar& theSrc) 
 {
 cAparch* myAparch = (cAparch*)(&theSrc) ;
- // cGarch* myGarch = theSrc;
 	if (myAparch)
 	{	
 		mvCste = myAparch->mvCste ;
@@ -248,7 +247,7 @@ register int i ;
 		theGradData.mCurrentGradVar += myTemp1 * theGradData.mGradHt[i-1] ; 
 	}
 
-	/* we computed d(ht^Delta/2)/dTeta, we need to compute dht.dTeta */
+	/* we computed d(ht^Delta/2)/dTheta, we need to compute dht.dTheta */
 	myBegIndex = (int)theGradData.GetNMeanParam() + 1 ; // We get the index of Delta
 double myAux = theGradData.mCurrentGradVar[myBegIndex] ;
 	/* Correct formula for all parameters except Delta */

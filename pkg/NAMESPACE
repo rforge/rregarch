@@ -1,4 +1,4 @@
-useDynLib(RRegArch, .registration = TRUE)
+useDynLib(RRegArch, .registration = TRUE, .fixes = "C_")
 export(meanSet)
 export(varSet)
 export(residualsSet)

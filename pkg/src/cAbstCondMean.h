@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cAbstCondMean.h 
  ***                                                         
@@ -38,7 +38,7 @@ public :
 	cAbstCondMean(eCondMeanEnum theType=eUnknown){mvCondMeanType = theType ;} ; ///< a simple constructor
 	virtual ~cAbstCondMean() ; ///< a simple destructor	
 	virtual void Delete(void) = 0 ; ///< delete
-	virtual void Print(ostream& theOut=cout) const = 0 ; ///< print the parameters
+	virtual void Print(ostream& theOut=out) const = 0 ; ///< print the parameters
 
 	/** Change model parameters.
 	 * \param theDVector New value of parameter */
@@ -84,10 +84,10 @@ public :
 	
 	/** Compute gradient of conditional mean with respect to parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
+	 * \param theValue Instance where the dataset is stored
 	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradMu 
 	 * \param theBegIndex First index for storage in theGradData.mCurrentGradMu 
-	 * \param theResids conditional distribution used only for non normal EGARCH models
+	 * \param theResids Conditional distribution used only for non normal EGARCH models
 	 */
 	virtual void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData, uint theBegIndex, cAbstResiduals* theResids) const=0 ;
 } ;

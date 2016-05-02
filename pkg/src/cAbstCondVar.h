@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cAbstCondVar.h 
  ***                                                         
@@ -29,7 +29,7 @@ public :
 	
 	/** Return the variance type */
 	virtual inline eCondVarEnum GetCondVarType(void) const {return mvCondVar ;} ;
-	virtual void Print(ostream& theOut=cout) const = 0 ;  ///< print the parameters
+	virtual void Print(ostream& theOut=out) const = 0 ;  ///< print the parameters
 
 	/** Change model parameters.
 	 * Vector of parameters is resized to size theParam[0] */
@@ -72,7 +72,7 @@ public :
 	/** Compute gradient of conditional variance with respect to parameters
 	 * except those of the conditional distribution
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
+	 * \param theValue Instance where the dataset is stored
 	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar 
 	 * \param cAbstResiduals* theResiduals conditionnal distribution used only in EGARCH model 
 	 */

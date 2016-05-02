@@ -1,5 +1,5 @@
  ###############################################################
- #### RRegArch version 0.8.0                                      
+ #### RRegArch version 1.0.0                                      
  ####                                                         
  #### File: RRegArchInternals.R 
  ####                                                         
@@ -150,7 +150,7 @@ setStorageMode.EGARCHClass <- function(object)
     storage.mode(x$ConstVar) <- "double"
     storage.mode(x$ARCH) <- "double"
     storage.mode(x$GARCH) <- "double"
-    storage.mode(x$Teta) <- "double"
+    storage.mode(x$Theta) <- "double"
     storage.mode(x$Gamma) <- "double"
     storage.mode(x$nParam) <- "integer"
     return(x)

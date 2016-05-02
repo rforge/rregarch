@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                    
  ***                                                         
  *** File: cAbstResiduals.h 
  ***                                                         
@@ -80,7 +80,7 @@ public :
 
 	/** Compute gradient of Log-density with respect to residual and parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
+	 * \param theValue Instance where the dataset is stored
 	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradDens) */
 	virtual void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData) const=0 ;
 	

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cEgarch.cpp 
  ***                                                         
@@ -17,7 +17,7 @@ cEgarch::cEgarch(int theNArch, int theNGarch):cAbstCondVar(eEgarch)
 	mvCste = 0.0L ;
 	mvArch.ReAlloc(theNArch) ;
 	mvGarch.ReAlloc(theNGarch) ;
-	mvTeta=0;
+	mvTheta=0;
 	mvGamma=0;
 	MESS_CREAT("cEgarch") ;
 }
@@ -29,7 +29,7 @@ cEgarch::cEgarch(cAbstResiduals* theResiduals, int theNArch, int theNGarch):cAbs
 	mvCste = 0.0L ;
 	mvArch.ReAlloc(theNArch) ;
 	mvGarch.ReAlloc(theNGarch) ;
-	mvTeta=0;
+	mvTheta=0;
 	mvGamma=0;
 	MESS_CREAT("cEgarch") ;
 }
@@ -61,7 +61,7 @@ register size_t i ;
 		theOut << "ARCH[" << i+1 << "]=" << mvArch[i] << endl ;
 	for (i = 0 ; i < mvGarch.GetSize() ; i++)
 		theOut << "GARCH[" << i+1 << "]=" << mvGarch[i] << endl ;
-	theOut << "Teta=" << mvTeta << endl ;
+	theOut << "Theta=" << mvTheta << endl ;
 	theOut << "Gamma=" << mvGamma << endl ;
 }
 
@@ -82,7 +82,7 @@ void cEgarch::Affect(const cDVector& theDVector, int thePlace)
 		case 3:
 			mvGarch = theDVector ;
 		case 4:
-			mvTeta = theDVector[0];
+			mvTheta = theDVector[0];
 		default :
 			mvGamma = theDVector[0];
 		break ;
@@ -108,7 +108,7 @@ void cEgarch::Affect(double theValue, int thePlace)
 			mvGarch[0] = theValue ;
 		}
 		case 4:
-			mvTeta = theValue ;
+			mvTheta = theValue ;
 		break ;
 
 		case 5:
@@ -128,7 +128,7 @@ cEgarch* myEgarch = dynamic_cast<cEgarch*>(&theSrc) ;
 		mvArch = myEgarch->mvArch ;
 		mvGarch = myEgarch->mvGarch ;
 		mvCste = myEgarch->mvCste ;
-		mvTeta = myEgarch->mvTeta ;
+		mvTheta = myEgarch->mvTheta ;
 		mvGamma = myEgarch->mvGamma ;
 	}
 }
@@ -141,7 +141,7 @@ int myp = (int)mvArch.GetSize(),
 	myq = (int)mvGarch.GetSize() ;
 double myRes = mvCste ;
 	for (register int i = 1 ; i <= MIN(myp, theDate) ; i++)
-		myRes += mvArch[i-1] *( mvTeta*theValue.mEpst[theDate-i] + mvGamma * (fabs(theValue.mEpst[theDate-i])- mvEspAbsEpsilont)) ;
+		myRes += mvArch[i-1] *( mvTheta*theValue.mEpst[theDate-i] + mvGamma * (fabs(theValue.mEpst[theDate-i])- mvEspAbsEpsilont)) ;
 	for (register int j = 1 ; j <= MIN(myq, theDate) ; j++)
 		myRes += mvGarch[j-1] * log(theValue.mHt[theDate-j]) ;
 
@@ -171,7 +171,7 @@ uint mySize = GetNParam(),
 	k += mvArch.GetSize() ;
 	mvGarch.SetSubVectorWithThis(theDestVect, k) ;
 	k += mvGarch.GetSize() ;
-	theDestVect[k++] = mvTeta	;
+	theDestVect[k++] = mvTheta	;
 	theDestVect[k] = mvGamma	;
 }
 
@@ -186,7 +186,7 @@ uint mySize = theSrcVect.GetSize(),
 	k += mvArch.GetSize() ;
 	mvGarch.SetThisWithSubVector(theSrcVect, k) ;
 	k += mvGarch.GetSize() ;
-	mvTeta = theSrcVect[k++] ;
+	mvTheta = theSrcVect[k++] ;
 	mvGamma = theSrcVect[k] ;
 }
 
@@ -201,13 +201,13 @@ register int i, j ;
 	theGradData.mCurrentGradVar[myBegIndex] = 1.0 ;
 // ARCH
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
-		theGradData.mCurrentGradVar[myBegIndex+i] = mvTeta*theValue.mEpst[theDate-i] + mvGamma*(abs(theValue.mEpst[theDate-i]) - mvEspAbsEpsilont) ;
+		theGradData.mCurrentGradVar[myBegIndex+i] = mvTheta*theValue.mEpst[theDate-i] + mvGamma*(abs(theValue.mEpst[theDate-i]) - mvEspAbsEpsilont) ;
 	myBegIndex += myp ;
 // GARCH
 	for (j = 1 ; j <= MIN(myq, theDate) ; j++)
 		theGradData.mCurrentGradVar[myBegIndex+j] = log(theValue.mHt[theDate-j]) ;
 	myBegIndex += myq ;
-// Teta and Gamma
+// Theta and Gamma
 	for ( i = 1 ; i <= MIN(myp, theDate) ; i++)
 	{	theGradData.mCurrentGradVar[myBegIndex+1] += mvArch[i-1] * theValue.mEpst[theDate-i] ;
 		theGradData.mCurrentGradVar[myBegIndex+2] += mvArch[i-1] * (fabs(theValue.mEpst[theDate-i]) - mvEspAbsEpsilont) ;
@@ -216,7 +216,7 @@ register int i, j ;
 // Next steps
 	for (i = 1 ; i <= MIN(myp, theDate) ; i++)
 		theGradData.mCurrentGradVar += mvArch[i-1]*
-		(mvTeta + mvGamma*SIGN(theValue.mEpst[theDate-i])) 
+		(mvTheta + mvGamma*SIGN(theValue.mEpst[theDate-i])) 
 			* theGradData.mGradEpst[i-1] ;
 
 	for (j = 1 ; j <= MIN(myq, theDate) ; j++)

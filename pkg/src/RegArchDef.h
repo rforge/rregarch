@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: RegArchDef.h 
  ***                                                         
@@ -24,12 +24,13 @@
 
 #include <math.h>
 #include "cRegArchError.h"
+#include "cRegArchStream.h"
 #include "cGSLVector.h"
 #include "cGSLMatrix.h"
 typedef cGSLVector cDVector ;
 typedef cGSLMatrix cDMatrix ;
 
-	using namespace std;
+using namespace RegArchStream;
 
 #ifndef MIN
 	#define MIN(p, q) ( (p) < (q) ? (p) : (q) ) ///< Definition of MIN if doesn't exist.
@@ -109,12 +110,12 @@ typedef enum eDistrTypeEnum
 // POUR DEBOGUER
 #ifndef MESS_CREAT
 	#ifdef _DEBUG1
-		#define MESS_CREAT(p) cout << "creation de " << p << endl ;
-		#define MESS_DESTR(p) cout << "destruction de " << p << endl ;
+		#define MESS_CREAT(p) out << "creating " << p << endl ;
+		#define MESS_DESTR(p) out << "destructing " << p << endl ;
 	#else
 		#define MESS_CREAT(p) ///< used for debugging 
 		#define MESS_DESTR(p) ///< used for debugging
-	#endif //_DEBUG
+	#endif //_DEBUG1
 #endif //MESS_CREAT
 
 

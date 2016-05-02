@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cStudentResiduals.cpp 
  ***                                                         
@@ -50,7 +50,7 @@ double myStd = sqrt(mLawParam[0]/(mLawParam[0]-2.0)) ;
 		theYt[t] = gsl_ran_tdist(mtR, mLawParam[0])/myStd ;
 }
 
-void cStudentResiduals::Print(std::ostream &theOut) const
+void cStudentResiduals::Print(ostream &theOut) const
 {
 	theOut << "Conditional Student Distribution with " << mLawParam[0] << " d. o. f." << endl ;
 }
@@ -126,7 +126,7 @@ void cStudentResiduals::ComputeGrad(int theDate, const cRegArchValue& theValue, 
 }
 
 /*
- * (2*sqrt(n-2)*gamma((n+1)/2))/(sqrt(PI)*(n-1)*gamma(n/2))
+ * 2*sqrt(n-2)*gamma((n+1)/2))/(sqrt(PI)*(n-1)*gamma(n/2))
  */
 
 double cStudentResiduals::ComputeEspAbsEps(void) const

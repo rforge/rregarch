@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGSLMultiMin.cpp 
  ***                                                         
@@ -11,6 +11,7 @@
 
 #include "cGSLMultiMin.h"
 #ifdef _GSL_
+
 cGSLMultiMin::cGSLMultiMin()
 {
 	mvInitPoint.Delete() ;
@@ -26,7 +27,16 @@ cGSLMultiMin::cGSLMultiMin()
 	mvTol = 1e-4 ;
 }
 
-cGSLMultiMin::cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function_fdf* theFunction, double theStepSize, double theTol)
+typedef struct
+{
+  gsl_matrix *x1;               /* simplex corner points */
+  gsl_vector *y1;               /* function value at corner points */
+  gsl_vector *ws1;              /* workspace 1 for algorithm */
+  gsl_vector *ws2;              /* workspace 2 for algorithm */
+}
+nmsimplex_state_t;
+
+cGSLMultiMin::cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function_fdf* theFunction, cDVector theStepSize, double theTol)
 {
 	mvInitPoint.ReAlloc(theX0) ;
 	mvFdf = (theTypeAlgo != eSimplexNM) ;
@@ -48,7 +58,7 @@ cGSLMultiMin::cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_mu
 			mvType.mvTypeFdf = gsl_multimin_fdfminimizer_steepest_descent ;
 		break ;
 		case eSimplexNM :
-			mvType.mvTypeF = gsl_multimin_fminimizer_nmsimplex ;
+			mvType.mvTypeF = gsl_multimin_fminimizer_nmsimplex2 ;
 		break ;
 
 	}
@@ -88,19 +98,19 @@ size_t myNParam = (size_t)theX0.GetSize() ;
 		}
 	}
 	if (mvFdf)
-		mvStepSize.mvStepDouble = theStepSize ;
+		mvStepSize.mvStepDouble = theStepSize[0] ;
 	else
-		mvStepSize.mvStepVect = new cDVector((int)(mvFunct.mvFunctF.n), theStepSize) ;
+		mvStepSize.mvStepVect = new cDVector(theStepSize) ;
 	mvTol = theTol ;
 	if (theFunction != NULL)
 	{	if (mvFdf)
-	gsl_multimin_fdfminimizer_set(mvState.mvStateFdf, &mvFunct.mvFunctFdf, mvInitPoint.GetGSLVector(), mvStepSize.mvStepDouble, mvTol);
+			gsl_multimin_fdfminimizer_set(mvState.mvStateFdf, &mvFunct.mvFunctFdf, mvInitPoint.GetGSLVector(), mvStepSize.mvStepDouble, mvTol);
 		else
 			gsl_multimin_fminimizer_set(mvState.mvStateF, &mvFunct.mvFunctF, mvInitPoint.GetGSLVector(), mvStepSize.mvStepVect->GetGSLVector()) ;
 	}
 }
 
-cGSLMultiMin::cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function* theFunction, double theStepSize)
+cGSLMultiMin::cGSLMultiMin(cDVector& theX0, eGSLMultiMinAlgo theTypeAlgo, gsl_multimin_function* theFunction, cDVector theStepSize)
 {
 	mvInitPoint.ReAlloc(theX0) ;
 	mvFdf = (theTypeAlgo != eSimplexNM) ;
@@ -162,15 +172,15 @@ size_t myNParam = (size_t)theX0.GetSize() ;
 		}
 	}
 	if (mvFdf)
-		mvStepSize.mvStepDouble = theStepSize ;
+		mvStepSize.mvStepDouble = theStepSize[0] ;
 	else
-		mvStepSize.mvStepVect = new cDVector((int)(mvFunct.mvFunctF.n), theStepSize) ;
+		mvStepSize.mvStepVect = new cDVector(theStepSize) ;
 	mvTol = 1e-4 ;
 	if (theFunction != NULL)
 	{	if (mvFdf)
 			gsl_multimin_fdfminimizer_set (mvState.mvStateFdf, &mvFunct.mvFunctFdf, mvInitPoint.GetGSLVector(), mvStepSize.mvStepDouble, mvTol);
 		else
-			gsl_multimin_fminimizer_set(mvState.mvStateF, &mvFunct.mvFunctF, mvInitPoint.GetGSLVector(), mvStepSize.mvStepVect->GetGSLVector()) ;
+			gsl_multimin_fminimizer_set(mvState.mvStateF, &mvFunct.mvFunctF, mvInitPoint.GetGSLVector(), mvStepSize.mvStepVect->GetGSLVector());
 	}
 }
 
@@ -320,12 +330,12 @@ void cGSLMultiMin::SetFunction(GSLMultiMinF theF,  size_t theNParam, void* theOt
 		mvFunct.mvFunctF.n = theNParam ;
 	}
 }
-void cGSLMultiMin::SetStepSize(double theStepSize)
+void cGSLMultiMin::SetStepSize(cDVector theStepSize)
 {
 	if (mvFdf)
-		mvStepSize.mvStepDouble = theStepSize ;
+		mvStepSize.mvStepDouble = theStepSize[0] ;
 	else
-		mvStepSize.mvStepVect = new cDVector((int)(mvFunct.mvFunctF.n), theStepSize) ;
+		mvStepSize.mvStepVect = new cDVector(theStepSize) ;
 }
 
 void cGSLMultiMin::SetTol(double theTol)
@@ -370,21 +380,21 @@ gsl_vector* myX ;
 			myStatus = gsl_multimin_test_size(myAuxSize, theStopValue) ;
 		}
 		if ( (myStatus == GSL_SUCCESS) && (theVerbose) )
-			cout << "Minimum found at:" << endl ;
+			out << "Minimum found at:" << endl ;
 		if (theVerbose)
 		{	if (mvFdf)
 				myX = mvState.mvStateFdf->x ;
 			else
 				myX = mvState.mvStateF->x ;
-			cout << "iter num " << myNIter << endl ;
+			out << "Iter num " << myNIter << endl ;
 			for (register uint i = 0 ; i < myNParam ; i++)
-				cout << "Teta[" << i+1 << "]="<< gsl_vector_get(myX, i)  << endl ;
+				out << "Theta[" << i+1 << "]="<< gsl_vector_get(myX, i)  << endl ;
 		double myf ;
 			if (mvFdf)
 				myf = mvState.mvStateFdf->f ;
 			else
 				myf = mvState.mvStateF->fval ;
-			cout << "function=" << myf << endl ;
+			out << "Function=" << myf << endl ;
 		}
     }
     while (myStatus == GSL_CONTINUE && myNIter < theMaxIter);
@@ -408,6 +418,5 @@ gsl_vector* myX ;
 		theResStruct.mCritValue = gsl_multimin_fminimizer_size (mvState.mvStateF) ;
 		theResStruct.mFunctValue = mvState.mvStateF->fval ;
 	}
-
 }
 #endif // _GSL_

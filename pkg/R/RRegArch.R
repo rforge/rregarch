@@ -1,5 +1,5 @@
  ###############################################################
- #### RRegArch version 0.8.0                                      
+ #### RRegArch version 1.0.0                                      
  ####                                                         
  #### File: RRegArch.R 
  ####                                                         
@@ -287,7 +287,7 @@ varSet <- function(...)
                     TARCH=tARCHSet(arg),
                     nTARCH=tARCHSet(list(ConstVar=0.0, ARCHPlus=rep(0, arg), ARCHMinus=rep(0, arg))),
                     EGARCH=eGARCHSet(arg),
-                    nEGARCH=eGARCHSet(list(ConstVar=0.0, ARCH=rep(0, arg[1]), GARCH=rep(0, arg[2]), Teta=0, Gamma=0)),
+                    nEGARCH=eGARCHSet(list(ConstVar=0.0, ARCH=rep(0, arg[1]), GARCH=rep(0, arg[2]), Theta=0, Gamma=0)),
                     APARCH=aPARCHSet(arg),
                     nAPARCH=aPARCHSet(list(ConstVar=0.0, ARCH=rep(0, arg[1]), Gamma=rep(0, arg[1]), GARCH=rep(0, arg[2]), Delta=2))
                 )
@@ -490,9 +490,9 @@ print.TARCHClass <- function(x, ...)
 eGARCHSet <- function(Param)
 {
     if (!is.list(Param))
-        stop('Param must be a list (ConstVar="double", ARCH="vector of doubles", GARCH="vector of doubles", Teta="double", Gamma="Double")')
+        stop('Param must be a list (ConstVar="double", ARCH="vector of doubles", GARCH="vector of doubles", Theta="double", Gamma="Double")')
     if (length(Param) != 5)
-        stop('Param must be a list (ConstVar="double", ARCH="vector of doubles", GARCH="vector of doubles", Teta="double", Gamma="Double")')
+        stop('Param must be a list (ConstVar="double", ARCH="vector of doubles", GARCH="vector of doubles", Theta="double", Gamma="Double")')
   
    if (is.null(Param$ConstVar))
         names(Param)[1] <- "ConstVar"
@@ -503,8 +503,8 @@ eGARCHSet <- function(Param)
     if (is.null(Param$GARCH))
         names(Param)[3] <- "GARCH"
  
-    if (is.null(Param$Teta))
-        names(Param)[4] <- "Teta"
+    if (is.null(Param$Theta))
+        names(Param)[4] <- "Theta"
  
     if (is.null(Param$Gamma))
         names(Param)[5] <- "Gamma"
@@ -518,8 +518,8 @@ eGARCHSet <- function(Param)
     if (!is.vector(Param$GARCH))
         stop('Param$GARCH must be a vector of doubles') 
     
-    if (!is.double(Param$Teta))
-        stop('Param$Teta must be a double')
+    if (!is.double(Param$Theta))
+        stop('Param$Theta must be a double')
  
     if (!is.double(Param$Gamma))
         stop('Param$Gamma must be a double')
@@ -527,7 +527,7 @@ eGARCHSet <- function(Param)
           
     nARCH <- length(Param$ARCH)  
     nGARCH <- length(Param$GARCH)
-    Res <- list(varType=eEGARCH, nARCH = nARCH, nGARCH=nGARCH, nParam=nARCH+nGARCH+3, ConstVar=Param$ConstVar, ARCH=Param$ARCH, GARCH=Param$GARCH, Teta=Param$Teta, Gamma=Param$Gamma)
+    Res <- list(varType=eEGARCH, nARCH = nARCH, nGARCH=nGARCH, nParam=nARCH+nGARCH+3, ConstVar=Param$ConstVar, ARCH=Param$ARCH, GARCH=Param$GARCH, Theta=Param$Theta, Gamma=Param$Gamma)
     class(Res) <- "EGARCHClass"
     return(Res)
 }
@@ -538,7 +538,7 @@ namesParam.EGARCHClass <- function(object)
         AuxNames <- c(AuxNames, sprintf("ARCH[%d]", i))
      for (i in 1:object$nGARCH)
         AuxNames <- c(AuxNames, sprintf("GARCH[%d]", i))
-     AuxNames <- c(AuxNames, "Teta", "Gamma")
+     AuxNames <- c(AuxNames, "Theta", "Gamma")
    return(AuxNames)
 }
 
@@ -549,7 +549,7 @@ print.EGARCHClass <- function(x, ...)
     Res[1] <- x$ConstVar
     Res[2:(x$nARCH+1)] <- x$ARCH
     Res[(x$nARCH+2):(x$nARCH+x$nGARCH+1)] <- x$GARCH
-    Res[x$nARCH+x$nGARCH+2] <- x$Teta
+    Res[x$nARCH+x$nGARCH+2] <- x$Theta
     Res[x$nARCH+x$nGARCH+3] <- x$Gamma
     names(Res) <- namesParam(x)
     Res1 <- as.data.frame(Res)
@@ -939,7 +939,7 @@ VectorToRegArchParam.TARCHClass <- function(object, vect)
 
 RegArchParamToVector.EGARCHClass <- function(object)
 {
-    return(c(object$ConstVar, object$ARCH,  object$GARCH, object$Teta, object$Gamma))
+    return(c(object$ConstVar, object$ARCH,  object$GARCH, object$Theta, object$Gamma))
 }
 
 VectorToRegArchParam.EGARCHClass <- function(object, vect)
@@ -948,7 +948,7 @@ VectorToRegArchParam.EGARCHClass <- function(object, vect)
     Res$ConstVar <- vect[1]
     Res$ARCH <- vect[2:(object$nARCH+1)]
     Res$GARCH <- vect[(object$nARCH+2):(object$nARCH+object$nGARCH+1)]
-    Res$Teta <- vect[object$nARCH+object$nGARCH+2]
+    Res$Theta <- vect[object$nARCH+object$nGARCH+2]
     Res$Gamma <- vect[object$nARCH+object$nGARCH+3]
     return(Res)
 }
@@ -1009,7 +1009,7 @@ RegArchSim <- function(nSimul, model)
     }
     
     model1 <- setStorageMode(model)
-    Res1 <- .Call("RRegArchSimul", nSim, model1)
+    Res1 <- .Call(C_RRegArchSimul, nSim, model1)
     names(Res1) <- c("Yt", "mt", "ht", "ut", "Epst")  
     return(Res1)         
 }
@@ -1023,7 +1023,7 @@ RegArchLLH <- function(Yt, model)
     }
     model1 <- setStorageMode(model)
     storage.mode(Yt) <- "double"
-    Res1 <- .Call("RRegArchLLH", length(Yt), list(Yt), model1)
+    Res1 <- .Call(C_RRegArchLLH, length(Yt), list(Yt), model1)
     return(Res1)
 }
  
@@ -1036,20 +1036,20 @@ RegArchGradLLH <- function(Yt, model)
     }
     model1 <- setStorageMode(model)
     storage.mode(Yt) <- "double"
-    Res1 <- .Call("RRegArchGradLLH", length(Yt), list(Yt), model1)
+    Res1 <- .Call(C_RRegArchGradLLH, length(Yt), list(Yt), model1)
     return(Res1)
 }
 
-optimfn <- function(Teta, Yt, model)
+optimfn <- function(Theta, Yt, model)
 {
-    model1 <- VectorToRegArchParam(model, Teta)
+    model1 <- VectorToRegArchParam(model, Theta)
     Res <- -RegArchLLH(Yt, model1)
     return(Res)
 }
 
-optimgr <- function(Teta, Yt, model)
+optimgr <- function(Theta, Yt, model)
 {
-    model1 <- VectorToRegArchParam(model, Teta)
+    model1 <- VectorToRegArchParam(model, Theta)
     Res <- -RegArchGradLLH(Yt, model1)
     return(Res)
 }
@@ -1069,24 +1069,24 @@ SetInitPoint <- function(Yt, model)
         {   j1 <- j1 + GetNParam(model$condMean[[i]])
         }
     }
-    Teta <- rep(0, nMean+nVar+nRes)
+    Theta <- rep(0, nMean+nVar+nRes)
     
     if (jmean > 0)
-        Teta[jmean] <- mean(Yt)
+        Theta[jmean] <- mean(Yt)
     
     if (!is.na(match(model$condVar$varType,c(eConstVar, eARCH, eGARCH, eTARCH))))
-        Teta[nMean+1] <- var(Yt)
+        Theta[nMean+1] <- var(Yt)
     else
     {   if (model$condVar$varType == eEGARCH)
-            Teta[nMean+1] <- log(var(Yt))
+            Theta[nMean+1] <- log(var(Yt))
         else
-        {   Teta[nMean+1] <- var(Yt)
-            Teta[nMean+nVar] <- 2
+        {   Theta[nMean+1] <- var(Yt)
+            Theta[nMean+nVar] <- 2
         }
     }
     if (nRes > 0)
-        Teta[nMean+nVar+1] <- 50
-    return(Teta)
+        Theta[nMean+nVar+1] <- 50
+    return(Theta)
 }
 
  AsymptoticCovMat <- function(Yt, model, hh)
@@ -1097,33 +1097,39 @@ SetInitPoint <- function(Yt, model)
     }
     model1 <- setStorageMode(model)
     storage.mode(Yt) <- "double"
-    Res1 <- .Call("RAsymptoticCovMat", length(Yt), list(Yt), model1, hh)
+    Res1 <- .Call(C_RAsymptoticCovMat, length(Yt), list(Yt), model1, hh)
     return(Res1)
 }
 
 RegArchFit <- function(Yt, model, initPoint=NULL, method=NULL, h=1e-3, control = list())
 {
-    if (is.null(initPoint))
-    {   Teta <- SetInitPoint(Yt, model)
-    }
-    else
-    {   if (class(initPoint) == 'RegArchModelClass')
-            Teta <- RegArchParamToVector(initPoint)
-        else
-            Teta <- initPoint
-    }
-    
-    if (is.null(method))
-        method <- c("Nelder-Mead")
-    
-    Res0 <- optim(par=Teta, fn=optimfn, gr=optimgr, Yt=Yt, model=model,
-            method = method, lower = -Inf, upper = Inf, control = control, hessian = FALSE)
-    
-    Res1 <- VectorToRegArchParam(model,Res0$par)
-    matCov <- AsymptoticCovMat(Yt, Res1, h) 
-    Res2 <- list(param=Res1,asymptCov=matCov, LLH=Res0$value, convergence=Res0$convergence)
-    class(Res2) <- "RegArchFitClass"
-    return(Res2)
+	if (is.null(initPoint))
+	{   Theta <- SetInitPoint(Yt, model)
+	}
+	else
+	{   if (class(initPoint) == 'RegArchModelClass')
+			Theta <- RegArchParamToVector(initPoint)
+		else
+			Theta <- initPoint
+	}
+	
+	if (is.null(method))
+		method <- c("Nelder-Mead")
+		
+    gr <- if (method == "SANN") NULL else optimgr
+	
+	if (.Call(C_IsGSLAvailable))
+	{	Res0 <- .Call(C_RRegArchFit, list(Theta), length(Yt), list(Yt), model, method, -Inf, Inf, control)
+	}
+	else
+	{	Res0 <- optim(par=Theta, fn=optimfn, gr=gr, Yt=Yt, model=model,
+			method = method, lower = -Inf, upper = Inf, control = control, hessian = FALSE)
+	}
+	Res1 <- VectorToRegArchParam(model,Res0$par)
+	matCov <- AsymptoticCovMat(Yt, Res1, h) 
+	Res2 <- list(param=Res1, asymptCov=matCov, LLH=Res0$value, convergence=Res0$convergence)
+	class(Res2) <- "RegArchFitClass"
+	return(Res2)
 }
 
 print.RegArchFitClass <- function(x, ...)
@@ -1163,6 +1169,3 @@ print.summary.RegArchFitClass <- function(x, ...)
      
     invisible()
 }
-
-  
-        

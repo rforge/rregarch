@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGSLMatrix.h 
  ***                                                         
@@ -25,7 +25,6 @@
 #ifndef _GSL_
 	#include "RGslMatrixEquiv.h"
 #else
-	#include <iostream>
 	#include <cmath>
 	#include <gsl/gsl_matrix.h>
 	#include <gsl/gsl_linalg.h> 
@@ -90,7 +89,7 @@ public :
 #endif // _GSL_
 	friend cGSLMatrix Inv(const cGSLMatrix &theMatrix) ;
 	friend void ClearMatrix(cGSLMatrix& theMatrix) ;
-	friend std::ostream& operator <<(std::ostream& theStream, const cGSLMatrix& theMat) ;
+	friend ostream& operator <<(ostream& theStream, const cGSLMatrix& theMat) ;
 	friend cGSLMatrix Transpose(const cGSLMatrix& theMatrix) ;
 	friend cGSLMatrix Transpose(const cGSLVector& theVector) ;
 #endif //_GNU_
@@ -115,7 +114,7 @@ extern cGSLMatrix Diag(const cGSLVector& theVect) ;
 extern void Svd(const cGSLMatrix& theMatrix, cGSLMatrix& theU, cGSLVector& theS, cGSLMatrix& theV) ;
 extern cGSLMatrix Inv(const cGSLMatrix &theMatrix) ;
 extern void ClearMatrix(cGSLMatrix& theMatrix) ;
-extern std::ostream& operator <<(std::ostream& theStream, const cGSLMatrix& theMat) ;
+extern ostream& operator <<(ostream& theStream, const cGSLMatrix& theMat) ;
 extern cGSLMatrix Transpose(const cGSLMatrix& theMatrix) ;
 extern cGSLMatrix Transpose(const cGSLVector& theVector) ;
 #endif //_GNU_

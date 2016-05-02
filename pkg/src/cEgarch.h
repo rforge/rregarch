@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cEgarch.h 
  ***                                                         
@@ -19,7 +19,7 @@
 /**
  * EGARCH(p, q) model
  *
- * ln h(t) = Cste + Sum_{i=1 to p} Arch(i)*(Teta*Eps(t-i) + Gamma*(abs(Eps(t-i)-E|Esp(t-i)|) 
+ * ln h(t) = Cste + Sum_{i=1 to p} Arch(i)*(Theta*Eps(t-i) + Gamma*(abs(Eps(t-i))-E|Eps(t-i)|))
  *				+ Sum_{j=1 to q} Garch(j)* ln h(t-j)
  *
  */
@@ -31,7 +31,7 @@ private :
 	double		mvCste ;
 	cDVector	mvArch ;
 	cDVector	mvGarch ;
-	double		mvTeta ;
+	double		mvTheta ;
 	double		mvGamma ;
 public :
 	cEgarch(int theNArch = 0, int theNGarch=0) ;

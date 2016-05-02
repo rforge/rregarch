@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cConstCondVar.h 
  ***                                                         
@@ -66,9 +66,9 @@ public :
 
 	/** Compute gradient of conditional variance with respect to parameters
 	 * \param theDate Date of interest for the process 
-	 * \parame theValue Instance where the dataset is stored
-	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar 
-	 * \param theResids conditional distribution used only for non normal EGARCH models
+	 * \param theValue Instance where the dataset is stored
+	 * \param theGradData Instance where the result is stored (in theGradData.mCurrentGradVar)
+	 * \param theResids Conditional distribution used only for non normal EGARCH models
      */
 	void ComputeGrad(int theDate, const cRegArchValue& theValue, cRegArchGradient& theGradData, cAbstResiduals* theResiduals) const ;
 

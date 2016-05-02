@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cLinReg.h 
  ***                                                         
@@ -25,7 +25,7 @@ public :
 	cLinReg(int theNLinReg = 0) ;
 	virtual ~cLinReg() ;
 	void Delete(void) ;
-	void Print(ostream& theOut=cout) const ;
+	void Print(ostream& theOut=out) const ;
 	void Affect(const cDVector& theDVector) ;
 	void Affect(double theValue) ;
 	void Affect(int theIndex, double theValue) ;

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cAr.cpp 
  ***                                                         
@@ -50,7 +50,7 @@ void cAr::Delete(void)
 /*!
  * \fn cAr::Print
  * \brief destructor.
- * \param ostream& theOut: the output stream, default cout.
+ * \param ostream& theOut: the output stream, default out.
  */
 void cAr::Print(ostream& theOut) const
 {

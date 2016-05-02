@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGSLVector.h 
  ***                                                         
@@ -18,8 +18,6 @@
 	\date oct-09-2008
 */
 
-#include <iostream>
-#include <ostream>
 #include <cmath>
 #ifdef _GSL_
 	#include <gsl/gsl_vector.h>
@@ -36,8 +34,8 @@
 // FOR DEBUGGING
 #ifndef MESS_CREAT
 	#ifdef _DEBUG1
-		#define MESS_CREAT(p) std::cout << "creation of " << p << std::endl ;
-		#define MESS_DESTR(p) std::cout << "destruction of " << p << std::endl ;
+		#define MESS_CREAT(p) RegArchStream::out << "creating " << p << RegArchStream::endl ;
+		#define MESS_DESTR(p) RegArchStream::out << "destructing " << p << RegArchStream::endl ;
 	#else
 		#define MESS_CREAT(p) ///< used for debugging 
 		#define MESS_DESTR(p) ///< used for debugging
@@ -86,7 +84,7 @@ public :
 	void SetSubVectorWithThis(cGSLVector& theDestVect, const uint theBegIndex) ;///< theDestVect[i+theBegIndex]=*this[i] for all i
 	cGSLVector& operator =(const cGSLMatrix& theMatrix) ; ///< *this = theMatrix (one column matrix)
 #ifndef _GNU_ // Works with MS VS 2008 - Not with MSYS
-	friend std::ostream& operator <<(std::ostream& theStream, const cGSLVector& theVect) ; ///< prints mVect
+	friend ostream& operator <<(ostream& theStream, const cGSLVector& theVect) ; ///< prints mVect
 	friend cGSLVector operator +(const cGSLVector& theVect, double theVal) ;///< returns theVect[i]+theVal for all i
 	friend cGSLVector operator +(double theVal, const cGSLVector& theVect) ;///< returns theVect[i]+theVal for all i
 	friend cGSLVector operator +(const cGSLVector& theVect1, double* theVect2) ;///< returns theVect1 + theVect2
@@ -102,12 +100,13 @@ public :
 	friend cGSLVector operator /(double theVal, const cGSLVector& theVect) ;/// returns theVal/theVect[i] for all i
 	friend cGSLVector operator /(const cGSLVector& theVect, double theVal) ;///< returns theVect/theVal
 	friend double Norm(const cGSLVector& theVect) ;///< euclidian norm
+	friend double Distance(const cGSLVector& theVect1, const cGSLVector& theVect2);///< euclidian distance
 	friend double Sum(const cGSLVector& theVect) ; ///< sum
 #endif // _GNU_
 } ;
 
 #ifdef _GNU_ // Works with MSYS - No Need for MS VS 2008 - Define _GNU_ in MSYS or LINUX makefile
-extern std::ostream& operator <<(std::ostream& theStream, const cGSLVector& theVect) ; ///< prints mVect
+extern ostream& operator <<(ostream& theStream, const cGSLVector& theVect) ; ///< prints mVect
 extern cGSLVector operator +(const cGSLVector& theVect, double theVal) ;///< returns theVect[i]+theVal for all i
 extern cGSLVector operator +(double theVal, const cGSLVector& theVect) ;///< returns theVect[i]+theVal for all i
 extern cGSLVector operator +(const cGSLVector& theVect1, double* theVect2) ;///< returns theVect1 + theVect2
@@ -123,6 +122,7 @@ extern cGSLVector operator *(const cGSLVector& theVect, double theVal) ;///< ret
 extern cGSLVector operator /(double theVal, const cGSLVector& theVect) ;/// returns theVal/theVect[i] for all i
 extern cGSLVector operator /(const cGSLVector& theVect, double theVal) ;///< returns theVect/theVal
 extern double Norm(const cGSLVector& theVect) ;///< euclidian norm
+extern double Distance(const cGSLVector& theVect1, const cGSLVector& theVect2);///< euclidian distance
 extern double Sum(const cGSLVector& theVect) ;///< sum
 #endif // _GNU_
 #endif //_cGSLVector_H_

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cCondMean.cpp 
  ***                                                         
@@ -45,7 +45,7 @@ cCondMean::cCondMean(cCondMean& theCondMean)
 		cAbstCondMean* myMean = theCondMean.GetOneMean(i) ;
 
 			AllocOneMean(i, myMean->GetCondMeanType()) ;
-			*(mvCondMean[i]) = *myMean ;
+			mvCondMean[i]->Affect(myMean) ;
 		}
 	}
 	else
@@ -65,8 +65,8 @@ void cCondMean::Delete(void)
 	if (mvNCondMean > 0)
 	{	for (register uint i = 0 ; i < mvNCondMean ; i++)
 			if (mvCondMean[i] != NULL)
-				mvCondMean[i]->Delete() ;
-		delete [] mvCondMean ;
+				delete mvCondMean[i] ;
+		delete[] mvCondMean ;
 	}
 	mvNCondMean = 0 ;
 	mvCondMean = NULL ;
@@ -108,6 +108,7 @@ register uint i ;
 	for (i = mvNCondMean ; i < theNCondMean ; i++)
 		myMean[i] = (cAbstCondMean *)NULL ;
 	mvNCondMean = theNCondMean ;
+	delete[] mvCondMean;
 	mvCondMean = myMean ;
 }
 
@@ -162,7 +163,7 @@ void cCondMean::AffectOneMean(int theWhatMean, cAbstCondMean* theAbstCondMean)
 	if (mvCondMean[theWhatMean] == NULL)
 		AllocOneMean(theWhatMean, theAbstCondMean->GetCondMeanType()) ;
 
-	*(mvCondMean[theWhatMean]) = *theAbstCondMean ;
+	mvCondMean[theWhatMean]->Affect(theAbstCondMean) ;
 }
 
 double cCondMean::ComputeMean(int theDate, const cRegArchValue& theData) const

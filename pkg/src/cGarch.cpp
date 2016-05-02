@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cGarch.cpp 
  ***                                                         
@@ -42,7 +42,7 @@ register uint i ;
 	for (i = 0 ; i < mvArch.GetSize() ; i++)
 		theOut << "ARCH[" << i+1 << "]=" << mvArch[i] << endl ;
 	for (i = 0 ; i < mvGarch.GetSize() ; i++)
-		cout << "GARCH[" << i+1 << "]=" << mvGarch[i] << endl ;
+		theOut << "GARCH[" << i+1 << "]=" << mvGarch[i] << endl ;
 }
 
 void cGarch::ReAlloc(int theVal1, int theVal2)

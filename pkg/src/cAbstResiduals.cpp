@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cAbstResiduals.cpp 
  ***                                                         
@@ -32,12 +32,7 @@ cAbstResiduals::cAbstResiduals(eDistrTypeEnum theDistr, const cDVector* theParam
 #ifndef _GSL_
 	GetRNGstate();
 #else
-	{	//Does not seem to have access to library
-		//variable gsl_rng_default
-		//gsl_rng_env_setup() ;
-		//const gsl_rng_type* myT ;
-		//myT = gsl_rng_default ;
-		const gsl_rng_type* myT = gsl_rng_env_setup();
+	{	const gsl_rng_type* myT = gsl_rng_env_setup();
 		mtR = gsl_rng_alloc(myT) ;
 	#ifndef _DEBUG
 		gsl_rng_set(mtR, (unsigned long int)time(NULL)) ;
@@ -101,7 +96,7 @@ cAbstResiduals& cAbstResiduals::operator =(const cAbstResiduals& theSrc)
 	mvDistr = theSrc.mvDistr ;
 	mvForSimul = theSrc.mvForSimul ;
 #ifdef _GSL_
-	*mtR = *(theSrc.mtR) ;
+	mtR = theSrc.mtR ;
 #endif // _GSL_
 	mLawParam = theSrc.mLawParam ;
 	return *this ;

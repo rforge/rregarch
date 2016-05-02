@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchValue.h 
  ***                                                         
@@ -37,11 +37,12 @@ public :
 public :
 	cRegArchValue(uint theSize, cDMatrix* theXt=NULL) ; ///< a creator
 	cRegArchValue(cDVector* theYt=NULL, cDMatrix* theXt=NULL) ;
+	cRegArchValue(const cRegArchValue* theValue); //copy constructor
 	virtual ~cRegArchValue() ;
 	void ReAllocValue(uint theSize=0, bool theDataValuesExist=false) ;
 	void ReAllocValue(cDVector& theYt) ;
 	void ReAllocValue(cDVector& theYt, cDMatrix& theXt) ;
-	void PrintValue(ostream& theOut=cout, bool theHeader=true, char* theSep="\t") ;
+	void PrintValue(ostream& theOut=out, bool theHeader=true, char* theSep="\t") ;
 };
 
 extern ostream& operator <<(ostream &theOut, cRegArchValue &theSimul) ;

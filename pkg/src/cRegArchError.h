@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cRegArchError.h 
  ***                                                         
@@ -20,10 +20,11 @@
 #else
 	#include <cstdlib>
 	#include <cstring>
-	#include <iostream>
-
-	using namespace std ;
 #endif //_RDLL_
+
+#include "cRegArchStream.h"
+using namespace RegArchStream;
+
 #ifndef NULL
 	#define NULL 0
 #endif // NULL

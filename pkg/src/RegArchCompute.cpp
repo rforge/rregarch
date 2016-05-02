@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: RegArchCompute.cpp 
  ***                                                         
@@ -10,6 +10,8 @@
  **************************************************************/
 
 #include "RegArchCompute.h"
+#include <omp.h>
+#include <sstream>
 
 void RegArchSimul(uint theNSample, cRegArchParam& theParam, cRegArchValue& theValue)
 {
@@ -141,7 +143,7 @@ cDVector myVectParam(myNParam), myVect0(myNParam) ;
 	for (register int i = 0 ; i < myNParam ; i++)
 	{
 	double myhh = fabs(theh * myVectParam[i]) ;
-		if (myhh < 1e-16)
+		if (myhh < MIN_DBLE)
 			myhh = theh ;
 		myVectParam[i] += myhh ;
 		theParam.VectorToRegArchParam(myVectParam) ;
@@ -166,7 +168,7 @@ cDVector myGrad0(myNParam), myGradij(myNParam), myVect(myNParam), myVect0(myNPar
 
 	for (register int i = 0 ; i < myNParam ; i++)
 	{	double myhhi = fabs(theh*myGrad0[i]) ;
-			if (myhhi < 1e-16)
+			if (myhhi < MIN_DBLE)
 				myhhi = theh ;
 			myVect[i] += myhhi ;
 			theParam.VectorToRegArchParam(myVect) ;
@@ -192,7 +194,7 @@ cDVector myGrad0(myNParam), myGradij(myNParam), myVect(myNParam), myVect0(myNPar
 cDMatrix myJ(myNParam, myNParam) ;
 	for (register int i = 0 ; i < myNParam ; i++)
 	{	double myhhi = fabs(theh*myGrad0[i]) ;
-			if (myhhi < 1e-16)
+			if (myhhi < MIN_DBLE)
 				myhhi = theh ;
 			myVect[i] += myhhi ;
 			theParam.VectorToRegArchParam(myVect) ;

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: RRegArch.cpp 
  ***                                                         
@@ -9,26 +9,7 @@
  ***                                                         
  **************************************************************/
 
-#include "cRUtils.h"
-#include "RegArchDef.h"
-#include "RegArchMeanInclude.h"
-#include "RegArchVarInclude.h"
-#include "RegArchResidualsInclude.h"
-#include "cRegArchParam.h"
-#include "cRegArchValue.h"
-#include "RegArchCompute.h"
-#include "cRegArchGradient.h"
-
-#ifdef WIN32
-	#define DECL_DLL_EXPORT __declspec(dllexport) 
-#else
-	#define DECL_DLL_EXPORT 
-#endif // WIN32
-
-#ifndef BEG_EXTERN_C
-	#define BEG_EXTERN_C extern "C" {
-	#define END_EXTERN_C }
-#endif //BEG_EXTERN_C
+#include "RRegArch.h"
 
 #ifdef _RDLL_
 static void SexpToRegArchParam(SEXP theModel, cRegArchParam& theParam, cDMatrix* theMatX)
@@ -182,18 +163,18 @@ eCondVarEnum myTypeVar ;
 		cDVector myVectArch(myNArch),
 		  		 myVectGarch(myNGarch) ;
 		double myConstVar,
-			   myTeta,
+			   myTheta,
 			   myGamma	;
 			myRUtil.GetValSexp(myCondVarSEXP, 4, myConstVar) ;
 			myRUtil.GetVectSexp(myCondVarSEXP, 5, myVectArch) ;
 			myRUtil.GetVectSexp(myCondVarSEXP, 6, myVectGarch) ;
-			myRUtil.GetValSexp(myCondVarSEXP, 7, myTeta) ;
+			myRUtil.GetValSexp(myCondVarSEXP, 7, myTheta) ;
 			myRUtil.GetValSexp(myCondVarSEXP, 8, myGamma) ;
 		cEgarch myEgarch = cEgarch(myNArch, myNGarch) ;
 			myEgarch.Affect(myConstVar, 1) ;
 			myEgarch.Affect(myVectArch, 2) ;
 			myEgarch.Affect(myVectGarch, 3) ;
-			myEgarch.Affect(myTeta, 4) ;
+			myEgarch.Affect(myTheta, 4) ;
 			myEgarch.Affect(myGamma, 5) ;
 			theParam.AddVar(myEgarch) ;
 		}
@@ -247,13 +228,23 @@ eDistrTypeEnum myTypeResid ;
 	}
 }
 
-BEG_EXTERN_C
-DECL_DLL_EXPORT SEXP RRegArchSimul	(	SEXP theNSimul, 
-										SEXP theModel
-									)
+SEXP IsGSLAvailable()
 {
-cRUtil myRUtil			;
-int myNSimul ;
+	cRUtil myRUtil;
+	SEXP myResSEXP;
+#ifdef _GSL_
+	myRUtil.SetValSexp(true, myResSEXP);
+#else
+	myRUtil.SetValSexp(false, myResSEXP);
+#endif
+	myRUtil.EndProtect() ;
+	return(myResSEXP) ;
+}
+
+SEXP RRegArchSimul(SEXP theNSimul, SEXP theModel)
+{
+cRUtil myRUtil;
+int myNSimul;
 	myNSimul = INTEGER(theNSimul)[0];
 cDMatrix myMatX ;
 cRegArchParam myParam ;
@@ -280,14 +271,8 @@ SEXP myResSEXP,
 	myRUtil.EndProtect() ;
 	return(myResSEXP) ;
 }
-END_EXTERN_C
 
-
-BEG_EXTERN_C
-DECL_DLL_EXPORT SEXP RRegArchLLH	(	SEXP theNObs,
-										SEXP theYt, 
-										SEXP theModel
-									)
+SEXP RRegArchLLH(SEXP theNObs, SEXP theYt, SEXP theModel)
 {
 cRUtil myRUtil ;
 int myNObs = INTEGER(theNObs)[0];
@@ -313,13 +298,8 @@ SEXP myResSEXP ;
 	myRUtil.EndProtect() ;
 	return(myResSEXP) ;
 }
-END_EXTERN_C
 
-BEG_EXTERN_C
-DECL_DLL_EXPORT SEXP RRegArchGradLLH	(	SEXP theNObs,
-											SEXP theYt, 
-											SEXP theModel
-										)
+SEXP RRegArchGradLLH(SEXP theNObs, SEXP theYt, SEXP theModel)
 {
 cRUtil myRUtil ;
 int myNObs = INTEGER(theNObs)[0];
@@ -347,14 +327,8 @@ SEXP myResSEXP ;
 	myRUtil.EndProtect() ;
 	return(myResSEXP) ;
 }
-END_EXTERN_C
 
-BEG_EXTERN_C
-DECL_DLL_EXPORT SEXP RAsymptoticCovMat	(	SEXP theNObs,
-											SEXP theYt, 
-											SEXP theModel,
-											SEXP theh
-										)
+SEXP RAsymptoticCovMat(SEXP theNObs, SEXP theYt, SEXP theModel, SEXP theh)
 {
 cRUtil myRUtil ;
 int myNObs = INTEGER(theNObs)[0] ;
@@ -384,5 +358,43 @@ SEXP myResSEXP ;
 	myRUtil.EndProtect() ;
 	return(myResSEXP) ;
 }
-END_EXTERN_C
+
+SEXP RRegArchFit(SEXP theInitPar, SEXP theNObs, SEXP theYt, SEXP theModel, SEXP theMethod, SEXP theLower, SEXP theUpper, SEXP theControl)
+{SEXP myResSEXP;
+#ifdef _GSL_
+	cRUtil myRUtil;
+
+	int myNObs = INTEGER(theNObs)[0];
+	cDVector myYt(myNObs);
+	myRUtil.GetVectSexp(theYt, 0, myYt);
+
+	cDMatrix myMatX;
+	cRegArchParam myParam;
+	SexpToRegArchParam(theModel, myParam, &myMatX);
+
+	cDVector myInitPar(myParam.GetNParam());
+	myRUtil.GetVectSexp(theInitPar, 0, myInitPar);
+
+	cDMatrix *myMat;
+	if ( (myMatX.GetNRow() > 0) && (myMatX.GetNCol() > 0) )
+		myMat = &myMatX;
+	else
+		myMat = NULL;
+	cRegArchValue myValue = cRegArchValue(&myYt, myMat);
+
+	const char* myMethod = CHAR(STRING_ELT(theMethod,0));
+	double myLower = REAL(theLower)[0];
+	double myUpper = REAL(theUpper)[0];
+	RegArchOptimParams myOptimParams(theControl, myParam.GetNParam(), myMethod, myLower, myUpper);
+
+	sRegArchOptimResult myRes = RegArchOptimize(myInitPar, myParam, myValue, myOptimParams);
+
+	char *myNames[3] = {"par", "value", "convergence"};
+	cDVector myResVect[3] = {myRes.mPar, cDVector(1, myRes.mValue), cDVector(1, myRes.mConvergence)};
+
+	myRUtil.SetListNamedVectSexp(myResVect, myNames, 3, myResSEXP);
+	myRUtil.EndProtect();
+#endif
+	return(myResSEXP);
+}
 #endif // _RDLL_

@@ -1,5 +1,5 @@
 /**************************************************************
- *** RRegArch version 0.8.0                                      
+ *** RRegArch version 1.0.0                                      
  ***                                                         
  *** File: cStdDevInMean.h 
  ***                                                         
@@ -24,7 +24,7 @@ public :
 	cStdDevInMean(double theStdDevInMean = 0.0) ;
 	~cStdDevInMean() ;
 	void Delete(void) ;
-	void Print(ostream& theOut=cout) const ;
+	void Print(ostream& theOut=out) const ;
 	void Affect(const cDVector& theDVector) ;
 	void Affect(double theValue) ;
 	void Affect(int theIndex, double theValue) ;
